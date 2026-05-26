@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catherine Lin — Resume</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --clr-bg:         #faf9f7;
+      --clr-surface:    #f2f0ec;
+      --clr-text:       #1a1614;
+      --clr-muted:      #8a8178;
+      --clr-border:     #e2ddd7;
+      --clr-accent:     #c42010;
+      --font:           'Inter', system-ui, sans-serif;
+      --font-serif:     'Instrument Serif', serif;
+    }
+
+    @media print {
+      body { background: #fff; }
+      .page { box-shadow: none; }
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--clr-bg);
+      color: var(--clr-text);
+      padding: 2rem;
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page {
+      max-width: 780px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 3rem 3.5rem;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--clr-border);
+      margin-bottom: 1.75rem;
+    }
+
+    .header__name {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 2rem;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      line-height: 1;
+    }
+
+    .header__title {
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: var(--clr-muted);
+      margin-top: 0.35rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .header__contact {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .header__contact a,
+    .header__contact span {
+      font-size: 0.75rem;
+      color: var(--clr-muted);
+      text-decoration: none;
+    }
+
+    .header__contact a:hover { color: var(--clr-accent); }
+
+    /* ── Layout ── */
+    .body {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 2.5rem;
+    }
+
+    /* ── Sections ── */
+    .section { margin-bottom: 1.75rem; }
+    .section:last-child { margin-bottom: 0; }
+
+    .section__label {
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--clr-muted);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--clr-border);
+    }
+
+    /* ── Experience ── */
+    .experience { margin-bottom: 1.25rem; }
+    .experience:last-child { margin-bottom: 0; }
+
+    .experience__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.1rem;
+    }
+
+    .experience__title {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--clr-text);
+    }
+
+    .experience__date {
+      font-size: 0.7rem;
+      color: var(--clr-muted);
+      font-weight: 400;
+      white-space: nowrap;
+    }
+
+    .experience__company {
+      font-size: 0.75rem;
+      color: var(--clr-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .experience__bullets {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .experience__bullets li {
+      font-size: 0.775rem;
+      color: #4a4540;
+      padding-left: 0.9rem;
+      position: relative;
+      font-weight: 300;
+    }
+
+    .experience__bullets li::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      color: var(--clr-accent);
+      font-weight: 600;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar .section__label { }
+
+    .skill-group { margin-bottom: 1rem; }
+    .skill-group:last-child { margin-bottom: 0; }
+
+    .skill-group__title {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--clr-text);
+      margin-bottom: 0.3rem;
+    }
+
+    .skill-group__items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .skill {
+      font-size: 0.675rem;
+      font-weight: 500;
+      background: var(--clr-surface);
+      color: var(--clr-muted);
+      padding: 0.2rem 0.5rem;
+      border-radius: 20px;
+    }
+
+    /* ── Education ── */
+    .edu { margin-bottom: 0.9rem; }
+    .edu:last-child { margin-bottom: 0; }
+
+    .edu__degree {
+      font-size: 0.775rem;
+      font-weight: 600;
+      color: var(--clr-text);
+    }
+
+    .edu__school {
+      font-size: 0.725rem;
+      color: var(--clr-muted);
+    }
+
+    .edu__date {
+      font-size: 0.7rem;
+      color: var(--clr-muted);
+      font-weight: 300;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- ============================================================
+         HEADER — Edit your name, title, and contact info here
+         ============================================================ -->
+    <header class="header">
+      <div>
+        <!-- Your name (displays in italic serif font) -->
+        <p class="header__name">Catherine Lin</p>
+        <!-- Your job title, shown in small caps below your name -->
+        <p class="header__title">UX Designer</p>
+      </div>
+      <div class="header__contact">
+        <!-- Contact links — replace the href AND visible text for each -->
+        <a href="mailto:catherinelinuxd@gmail.com">catherinelinuxd@gmail.com</a>
+        <a href="https://www.linkedin.com/in/catherine-lin12/" target="_blank">linkedin.com/in/catherine-lin12</a>
+        <a href="https://catherinelindesign.com/" target="_blank">catherinelindesign.com</a>
+        <!-- Plain text for location (not a link) -->
+        <span>Vancouver, BC</span>
+      </div>
+    </header>
+
+    <div class="body">
+
+      <!-- Main column (left side) -->
+      <main>
+
+        <!-- ============================================================
+             EXPERIENCE — Add, remove, or edit jobs here.
+             Copy one entire <div class="experience">...</div> block
+             to add a new job. Delete a block to remove a job.
+             ============================================================ -->
+        <section class="section">
+          <p class="section__label">Experience</p>
+
+          <!-- Job 1 (most recent) -->
+          <div class="experience">
+            <div class="experience__header">
+              <!-- Your job title -->
+              <span class="experience__title">UX Designer</span>
+              <!-- Date range, e.g. "Jan 2025 – Present" -->
+              <span class="experience__date">May 2025 – Present</span>
+            </div>
+            <!-- Company name · City, Province -->
+            <p class="experience__company">SAP — Data &amp; Analytics · Vancouver, BC</p>
+            <ul class="experience__bullets">
+              <!-- Each <li> is one bullet point. Aim for 2–4 per role. -->
+              <li>Designed mobile interactions and defined guidelines for 10+ chart types — including filtering, tooltips, and data display — contributing to a successful beta launch.</li>
+              <li>Designed high-fidelity mockups and two new design system components to improve chart selection, scalability, and cross-product consistency.</li>
+              <li>Redesigned three core workflows with responsive design, delivering detailed specs for accurate implementation.</li>
+              <li>Presented proposals to an international team of 10+ and collaborated with PMs, engineers, and designers on early AI and agentic workflow vision.</li>
+            </ul>
+          </div>
+
+          <!-- Job 2 -->
+          <div class="experience">
+            <div class="experience__header">
+              <span class="experience__title">UX Designer</span>
+              <span class="experience__date">June 2023 – April 2025</span>
+            </div>
+            <p class="experience__company">Raisonance — Healthcare Startup · Vancouver, BC</p>
+            <ul class="experience__bullets">
+              <li>As sole UX designer, redesigned the core cough recording flow and health score experience, improving app usability by 40% measured through usability testing.</li>
+              <li>Established the foundational design system and designed 15+ components, accelerating development handoff and enabling consistent, scalable implementation.</li>
+              <li>Redesigned the B2B purchasing flow and introduced a patient results dashboard, enabling faster decision-making.</li>
+              <li>Worked directly with the CEO, PMs, and developers in a fast-paced startup environment, owning the end-to-end design process from brief to final handoff.</li>
+            </ul>
+          </div>
+
+          <!-- Job 3 -->
+          <div class="experience">
+            <div class="experience__header">
+              <span class="experience__title">Digital Experience Designer</span>
+              <span class="experience__date">July 2020 – May 2021</span>
+            </div>
+            <p class="experience__company">Volvo Cars Canada · Vancouver, BC</p>
+            <ul class="experience__bullets">
+              <li>Designed 25+ digital campaign assets with agency partners, delivering intuitive, brand-aligned user experiences.</li>
+              <li>Standardized Volvo's digital visual identity across 36+ franchisees, unifying the digital brand experience nationwide.</li>
+            </ul>
+          </div>
+
+        </section>
+
+        <!-- ============================================================
+             EDUCATION — Add, remove, or edit degrees here.
+             Copy one <div class="edu">...</div> block to add an entry.
+             ============================================================ -->
+        <section class="section">
+          <p class="section__label">Education</p>
+
+          <!-- Degree 1 (most recent) -->
+          <div class="edu">
+            <!-- Your degree or diploma name -->
+            <p class="edu__degree">UX/UI Associates Certificate</p>
+            <!-- School name -->
+            <p class="edu__school">BCIT</p>
+            <!-- Graduation year or range -->
+            <p class="edu__date">2024 – April 2025</p>
+          </div>
+
+          <!-- Degree 2 -->
+          <div class="edu">
+            <p class="edu__degree">Honours Bachelor of Commerce</p>
+            <p class="edu__school">McMaster University</p>
+            <p class="edu__date">2018 – 2022</p>
+          </div>
+
+        </section>
+
+      </main>
+
+      <!-- ============================================================
+           SIDEBAR (right column) — Skills and Languages
+           ============================================================ -->
+      <aside class="sidebar">
+
+        <!-- ── SKILLS ──────────────────────────────────────────────
+             Each skill-group is a category (Design, Research, Tools).
+             Add or remove <span class="skill">...</span> tags to
+             change individual skills within a group.
+             To add a new category, copy an entire skill-group block.
+             ──────────────────────────────────────────────────────── -->
+        <section class="section">
+          <p class="section__label">Skills</p>
+
+          <!-- Skill category 1 -->
+          <div class="skill-group">
+            <p class="skill-group__title">Design</p>
+            <div class="skill-group__items">
+              <span class="skill">User-Centered Design</span>
+              <span class="skill">Interaction Design</span>
+              <span class="skill">UI Design</span>
+              <span class="skill">Accessibility</span>
+              <span class="skill">Prototyping</span>
+              <span class="skill">Design Systems</span>
+              <span class="skill">Journey Mapping</span>
+              <span class="skill">Wireframing</span>
+              <span class="skill">Usability Testing</span>
+              <span class="skill">Design Thinking</span>
+            </div>
+          </div>
+
+          <!-- Skill category 2 -->
+          <div class="skill-group">
+            <p class="skill-group__title">Tools</p>
+            <div class="skill-group__items">
+              <span class="skill">Figma</span>
+              <span class="skill">Miro</span>
+              <span class="skill">Jira</span>
+              <span class="skill">Confluence</span>
+              <span class="skill">Framer</span>
+              <span class="skill">Webflow</span>
+              <span class="skill">Basic HTML/CSS</span>
+              <span class="skill">AI Tools</span>
+            </div>
+          </div>
+
+          <!-- Skill category 3 -->
+          <div class="skill-group">
+            <p class="skill-group__title">Certifications</p>
+            <div class="skill-group__items">
+              <span class="skill">Web Accessibility WCAG 2.1</span>
+              <span class="skill">Mobile UI</span>
+              <span class="skill">AR/VR Design</span>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ── LANGUAGES ────────────────────────────────────────────
+             Edit the text inside each <span> to change languages.
+             Common proficiency levels: Native, Fluent, Conversational, Basic
+             ──────────────────────────────────────────────────────── -->
+        <section class="section">
+          <p class="section__label">Languages</p>
+          <div class="skill-group__items" style="flex-direction: column; gap: 0.3rem;">
+            <span style="font-size: 0.775rem; font-weight: 300; color: #4a4540;">English — Native</span>
+            <span style="font-size: 0.775rem; font-weight: 300; color: #4a4540;">Mandarin — Conversational</span>
+          </div>
+        </section>
+
+      </aside>
+
+    </div>
+  </div>
+</body>
+</html>

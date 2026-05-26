@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Case Study — Jane Doe</title>
+  <link rel="icon" type="image/svg+xml" href="images/favicon-lin.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Case study specific styles ── */
+    .container { max-width: 1100px; }
+
+    .cough-wave-wrap {
+      margin-top: var(--space-8);
+      padding: var(--space-6);
+      background: #f4f2ef;
+      border-radius: 20px;
+    }
+
+    .cough-wave__label {
+      font-size: var(--text-xs);
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--clr-text-muted);
+      margin-bottom: var(--space-3);
+    }
+
+    .cough-wave {
+      width: 100%;
+      height: 80px;
+      display: block;
+    }
+
+    .cs-context-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+      align-items: center;
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .cs-context-visual {
+      margin-top: 0;
+    }
+
+    .cs-context-visual img {
+      width: 100%;
+      display: block;
+    }
+
+    .score-slideshow {
+      position: relative;
+      width: 240px;
+      flex-shrink: 0;
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .score-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1.2s ease-in-out;
+    }
+
+    .score-slide.active { opacity: 1; }
+
+    /* spacer image keeps the container at the correct aspect ratio */
+    .score-slideshow::after {
+      content: '';
+      display: block;
+      padding-top: calc(888 / 435 * 100%);
+    }
+
+
+    @media (max-width: 640px) {
+      .cs-context-grid { grid-template-columns: 1fr; }
+      .cs-context-visual { display: none; }
+    }
+    .cs-header {
+      padding-top: calc(5rem + var(--space-8));
+      padding-bottom: var(--space-8);
+    }
+
+    .cs-header .container { padding-inline: var(--space-3); }
+
+    .cs-back {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-sm);
+      color: var(--clr-text-muted);
+      margin-bottom: var(--space-6);
+      transition: color var(--duration-fast);
+    }
+
+    .cs-back:hover { color: var(--clr-accent); }
+
+    .cs-header h1 {
+      font-family: var(--font);
+      font-size: clamp(var(--text-2xl), 5vw, var(--text-4xl));
+      line-height: var(--leading-tight);
+      margin-bottom: var(--space-4);
+    }
+
+    .cs-header p.lead {
+      font-size: var(--text-lg);
+      color: var(--clr-text-muted);
+      margin-bottom: var(--space-8);
+    }
+
+    .cs-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-6);
+      padding: var(--space-6) 0;
+      border-top: 2px dashed var(--clr-border);
+      border-bottom: 2px dashed var(--clr-border);
+    }
+
+    .cs-meta__item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .cs-meta__label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--clr-text-muted);
+    }
+
+    .cs-meta__value {
+      font-size: var(--text-sm);
+      font-weight: 500;
+    }
+
+    .cs-hero-img {
+      width: 100%;
+      aspect-ratio: 16 / 8;
+      object-fit: cover;
+      border-radius: 20px;
+      margin-block: var(--space-12);
+      background: linear-gradient(135deg, #fff9e6, #fce8e8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--clr-accent);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* Prose body */
+    .cs-body { padding-bottom: var(--space-20); }
+
+    .cs-body .container { padding-inline: var(--space-3); }
+
+    .cs-body h2 {
+      font-family: var(--font);
+      font-size: var(--text-2xl);
+      line-height: var(--leading-tight);
+      margin-top: var(--space-12);
+      margin-bottom: var(--space-4);
+    }
+
+    .cs-eyebrow {
+      display: block;
+      font-size: var(--text-xs);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--clr-text-muted);
+      margin-top: var(--space-20);
+      margin-bottom: var(--space-2);
+    }
+
+    .cs-eyebrow + h2 { margin-top: 0; }
+
+    .cs-body h3 {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      margin-top: var(--space-8);
+      margin-bottom: var(--space-3);
+    }
+
+    .cs-body p {
+      color: var(--clr-text-muted);
+      margin-bottom: var(--space-4);
+    }
+
+    .cs-body p:last-child { margin-bottom: 0; }
+
+    .callout {
+      padding: var(--space-6);
+      background: #fff9e6;
+      border-left: 4px solid var(--clr-accent);
+      border-radius: 4px 12px 8px 4px;
+      margin-block: var(--space-8);
+    }
+
+    .callout p {
+      font-size: var(--text-lg);
+      font-style: italic;
+      font-family: var(--font);
+      color: var(--clr-accent);
+      margin: 0;
+    }
+
+    .outcome-grid {
+      display: flex;
+      flex-direction: column;
+      margin-block: var(--space-8);
+    }
+
+    .outcome {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: var(--space-6);
+      align-items: center;
+      padding-block: var(--space-6);
+      border-top: 1px solid var(--clr-border);
+    }
+
+    .outcome:last-child { border-bottom: 1px solid var(--clr-border); }
+
+    .outcome__stat {
+      font-family: var(--font);
+      font-size: var(--text-3xl);
+      color: var(--clr-text);
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .outcome__label {
+      font-size: var(--text-sm);
+      font-weight: 300;
+      color: var(--clr-text-muted);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 640px) {
+      .outcome { grid-template-columns: 80px 1fr; gap: var(--space-4); }
+    }
+
+    .img-placeholder {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #f4f2ef;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--clr-text-muted);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-block: var(--space-8);
+    }
+
+    .problem-charts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+      margin-block: var(--space-8);
+      padding: var(--space-6);
+      background: #F2F2F2;
+      border-radius: 20px;
+    }
+
+    .problem-chart__label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--clr-text-muted);
+      margin-bottom: var(--space-3);
+    }
+
+    @media (max-width: 640px) {
+      .problem-charts { grid-template-columns: 1fr; }
+    }
+
+    .cs-nav {
+      display: flex;
+      justify-content: space-between;
+      padding-block: var(--space-8);
+      border-top: 1px solid var(--clr-border);
+      margin-top: var(--space-16);
+    }
+
+    .cs-nav a {
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--clr-text-muted);
+      transition: color var(--duration-fast);
+    }
+
+    .cs-nav a:hover { color: var(--clr-accent); }
+
+    /* ── User Journey Map ── */
+    .journey-map {
+      margin-block: var(--space-12);
+      border: 1px solid var(--clr-border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .journey-stages {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-bottom: 1px solid var(--clr-border);
+    }
+
+    .journey-stage {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-6) var(--space-6);
+      border-right: 1px solid var(--clr-border);
+    }
+
+    .journey-stage:last-child { border-right: none; }
+
+    .journey-stage__icon {
+      color: var(--clr-text-muted);
+      flex-shrink: 0;
+    }
+
+    .journey-stage__label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--clr-text);
+      margin: 0;
+    }
+
+    .journey-emotion {
+      padding: var(--space-8) var(--space-6) var(--space-4);
+      border-bottom: 1px solid var(--clr-border);
+      position: relative;
+    }
+
+    .journey-emotion__label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--clr-text-muted);
+      display: block;
+      margin-bottom: var(--space-3);
+    }
+
+    .journey-curve-wrap {
+      position: relative;
+    }
+
+    .journey-curve {
+      width: 100%;
+      height: 120px;
+      display: block;
+    }
+
+    .journey-emotion__tag {
+      position: absolute;
+      font-size: var(--text-xs);
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--clr-text-muted);
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+
+    .journey-dot {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--clr-text);
+      transform: translate(-50%, -50%);
+    }
+
+    /* dot positions: left = x/600, top = cy/120 */
+    .journey-dot--1 { left: 16.67%; top: 60%; }
+    .journey-dot--2 { left: 50%;    top: 90%; }
+    .journey-dot--3 { left: 83.33%; top: 15%; }
+
+    /* dot at 100/600 = 16.67%, cy=72/120 = 60% → label above */
+    .journey-emotion__tag--1 { left: 16.67%; top: calc(60% - 28px); }
+    /* dot at 300/600 = 50%, cy=108/120 = 90% → label below */
+    .journey-emotion__tag--2 { left: 50%; top: calc(90% + 10px); }
+    /* dot at 500/600 = 83.33%, cy=18/120 = 15% → label above */
+    .journey-emotion__tag--3 { left: 83.33%; top: calc(15% - 28px); }
+
+    .journey-emotion__scale {
+      display: flex;
+      justify-content: space-between;
+      font-size: var(--text-xs);
+      color: var(--clr-text-muted);
+      font-weight: 300;
+      margin-top: var(--space-2);
+    }
+
+    .journey-row {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      border-bottom: 1px solid var(--clr-border);
+    }
+
+    .journey-row:last-child { border-bottom: none; }
+
+    .journey-row__label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--clr-text-muted);
+      padding: var(--space-4) var(--space-4);
+      border-right: 1px solid var(--clr-border);
+      display: flex;
+      align-items: flex-start;
+      writing-mode: horizontal-tb;
+    }
+
+    .journey-cells {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .journey-cell {
+      padding: var(--space-4) var(--space-6);
+      border-right: 1px solid var(--clr-border);
+    }
+
+    .journey-cell:last-child { border-right: none; }
+
+    .journey-cell p {
+      font-size: var(--text-xs);
+      font-weight: 300;
+      color: var(--clr-text-muted);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    .journey-quote {
+      font-style: italic;
+      font-size: var(--text-xs) !important;
+      color: var(--clr-text) !important;
+    }
+
+    .journey-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .journey-list li {
+      font-size: var(--text-xs);
+      font-weight: 300;
+      color: var(--clr-text-muted);
+      padding-left: var(--space-4);
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .journey-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--clr-border);
+    }
+
+    .journey-row--opportunity .journey-cell {
+      background: #f4f2ef;
+    }
+
+    @media (max-width: 768px) {
+      .journey-row { grid-template-columns: 1fr; }
+      .journey-row__label { writing-mode: horizontal-tb; border-right: none; border-bottom: 1px solid var(--clr-border); }
+      .journey-stages, .journey-cells { grid-template-columns: 1fr; }
+      .journey-stage, .journey-cell { border-right: none; border-bottom: 1px solid var(--clr-border); }
+    }
+
+    /* ── FigJam sticky board ── */
+    .figjam-board {
+      background: #F2F2F2;
+      border-radius: 20px;
+      padding: var(--space-8);
+      margin-block: var(--space-8);
+      overflow: hidden;
+    }
+
+    .figjam-board__label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #a89880;
+      margin-bottom: var(--space-6);
+    }
+
+    .figjam-cols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+
+    .figjam-col__heading {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: var(--space-3);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .figjam-sticky {
+      padding: var(--space-4) var(--space-4) var(--space-8);
+      border-radius: 4px;
+      font-size: 13px;
+      line-height: 1.55;
+      color: #2a2a2a;
+      margin-bottom: var(--space-3);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.07);
+      position: relative;
+    }
+
+    .figjam-sticky--yellow { background: #fef08a; }
+    .figjam-sticky--pink   { background: #fda4af; }
+    .figjam-sticky--blue   { background: #bfdbfe; }
+    .figjam-sticky--green  { background: #bbf7d0; }
+    .figjam-sticky--peach  { background: #fed7aa; }
+    .figjam-sticky--purple { background: #e9d5ff; }
+
+    .figjam-legend {
+      display: flex;
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+      flex-wrap: wrap;
+    }
+
+    .figjam-legend__item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-xs);
+      color: #777;
+    }
+
+    .figjam-legend__dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      flex-shrink: 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    }
+      display: block;
+      font-style: italic;
+      font-size: 12px;
+      color: #555;
+      margin-top: var(--space-2);
+      padding-top: var(--space-2);
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+
+    /* ── Top 3 pain point callouts ── */
+    .pain-callouts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+      margin-block: var(--space-8);
+    }
+
+    .pain-callout {
+      padding: var(--space-5);
+      background: #fff5f5;
+      border-top: 3px solid #c42010;
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+    }
+
+    .pain-callout__number {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #c42010;
+      margin-bottom: var(--space-2);
+    }
+
+    .pain-callout__title {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--clr-text);
+      margin-bottom: var(--space-2);
+    }
+
+    .pain-callout p { margin-bottom: var(--space-1); }
+    .pain-callout p:last-child { margin-bottom: 0; }
+      font-size: var(--text-xs);
+      color: var(--clr-text-muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    @media (max-width: 640px) {
+      .figjam-cols { grid-template-columns: 1fr; }
+      .pain-callouts { grid-template-columns: 1fr; }
+    }
+    .cs-feature { margin-block: var(--space-12); }
+
+    .cs-feature__header {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+
+    .cs-feature__number {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--clr-border);
+    }
+
+    .cs-feature__icon {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .cs-feature__title {
+      font-size: var(--text-xl);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    .cs-feature__columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+    }
+
+    .cs-feature__label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-3);
+    }
+
+    .cs-feature__side--before .cs-feature__label { color: var(--clr-text-muted); }
+    .cs-feature__side--after .cs-feature__label { color: var(--clr-accent); }
+
+    .cs-feature__list {
+      list-style: none;
+      padding: 0;
+      margin-bottom: var(--space-4);
+    }
+
+    .cs-feature__list li {
+      font-size: var(--text-sm);
+      color: var(--clr-text-muted);
+      padding: var(--space-2) 0;
+      padding-left: var(--space-6);
+      position: relative;
+      border-bottom: 1px solid var(--clr-border);
+      line-height: 1.6;
+    }
+
+    .cs-feature__list--before li::before {
+      content: '✗';
+      position: absolute;
+      left: 0;
+      color: #c42010;
+      font-weight: 600;
+    }
+
+    .cs-feature__list--after li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #2a7a4f;
+      font-weight: 600;
+    }
+
+    @media (max-width: 640px) {
+      .cs-feature__columns { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" aria-label="Primary">
+    <a href="index.html" class="nav__logo" aria-label="CL — Home" style="font-family: 'Ma Shan Zheng', serif; font-size: 1.75rem; text-decoration: none; color: var(--clr-text);">林</a>
+    <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+    <ul class="nav__links" role="list">
+      <li><a href="index.html#work" aria-current="page">Work</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="https://drive.google.com/file/d/1N8Trjoo7WWR7c0rMHwUJrrGUKLO5-BjP/view?usp=sharing" target="_blank" rel="noopener">Resume</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- ── Case Study Header ──── -->
+    <header class="cs-header">
+      <div class="container">
+        <a href="index.html#work" class="cs-back">← All work</a>
+        <div class="project__tags" style="margin-bottom: var(--space-4);">
+          <span class="tag">Mobile</span>
+          <span class="tag">Healthcare</span>
+          <span class="tag">Startup</span>
+        </div>
+        <h1>Making AI cough analysis human-centred</h1>
+        <p class="lead">
+          An app-wide redesign that improved usability by 40%, giving users the clarity and confidence to monitor their respiratory health on their own terms.
+        </p>
+        <div class="cs-meta">
+          <div class="cs-meta__item">
+            <span class="cs-meta__label">My role</span>
+            <span class="cs-meta__value">Product Designer</span>
+          </div>
+          <div class="cs-meta__item">
+            <span class="cs-meta__label">Timeline</span>
+            <span class="cs-meta__value">~5 months</span>
+          </div>
+          <div class="cs-meta__item">
+            <span class="cs-meta__label">Team</span>
+            <span class="cs-meta__value">CEO, PM, 2 Devs, Data Scientist, Product Designer</span>
+          </div>
+          <div class="cs-meta__item">
+            <span class="cs-meta__label">Tools</span>
+            <span class="cs-meta__value">Figma, Miro, Jira, Mobbin</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Hero image ───────────── -->
+    <div class="container">
+      <img src="images/MyAdvocate_Hero.png" alt="MyAdvocate hero image" class="cs-hero-img" style="border-radius:20px;" />
+    </div>
+
+    <!-- ── Case Study Body ───────── -->
+    <article class="cs-body">
+      <div class="container">
+
+        <div class="cs-context-grid">
+          <div class="cs-context-block">
+        <span class="cs-eyebrow">Context</span>
+        <h2>Did you know your cough is as unique as your fingerprint?</h2>
+            <p>Most of us don't know that each of our coughs carries 5000+ unique biomarkers, revealing personalised insights about the condition of our respiratory health.</p>
+            <p>MyAdvocate is the world's first mobile app to use AI-driven sound analysis to interpret these biomarkers and provide an instant wellness score. I joined the startup team as a solo designer to help increase the usability of their mobile-native experience.</p>
+          </div>
+          <div class="cs-context-visual">
+            <img src="images/tilted_phone.avif" alt="MyAdvocate app on a tilted phone" />
+            <p style="font-size: var(--text-xs); font-weight: 500; letter-spacing: 0.08em; color: var(--clr-text-muted); margin-top: var(--space-1); text-align: right;">Image of solution</p>
+          </div>
+        </div>
+
+        <hr style="border: none; border-top: 1px solid var(--clr-border); margin: var(--space-20) 0 0;" />
+
+        <span class="cs-eyebrow">Problem</span>
+        <h2>Healthcare AI is booming, yet MyAdvocate's user adoption is low</h2>
+        <p>
+          MyAdvocate transforms respiratory health testing from a process that took days, into an instantaneous at-home experience. In a simple flow, the user coughs into the app and receives a personalised score that they can monitor over time.
+        </p>
+        <p>
+          However, the app had trouble gaining traction, with user adoption and retention both falling significantly below expectations. I began by setting up a usability test to understand the experience on the existing app.
+        </p>
+
+        <div class="problem-charts">
+          <div class="problem-chart">
+            <p class="problem-chart__label">Global AI Healthcare Market</p>
+            <svg viewBox="0 0 240 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Grid lines -->
+              <line x1="30" y1="10" x2="30" y2="95" stroke="var(--clr-border)" stroke-width="1"/>
+              <line x1="30" y1="95" x2="225" y2="95" stroke="var(--clr-border)" stroke-width="1"/>
+              <line x1="30" y1="70" x2="225" y2="70" stroke="var(--clr-border)" stroke-width="0.5" stroke-dasharray="3 3"/>
+              <line x1="30" y1="45" x2="225" y2="45" stroke="var(--clr-border)" stroke-width="0.5" stroke-dasharray="3 3"/>
+              <line x1="30" y1="20" x2="225" y2="20" stroke="var(--clr-border)" stroke-width="0.5" stroke-dasharray="3 3"/>
+              <!-- Y axis labels -->
+              <text x="24" y="98" text-anchor="end" font-family="Inter,sans-serif" font-size="7" fill="var(--clr-text-muted)">0</text>
+              <text x="24" y="73" text-anchor="end" font-family="Inter,sans-serif" font-size="7" fill="var(--clr-text-muted)">50B</text>
+              <text x="24" y="48" text-anchor="end" font-family="Inter,sans-serif" font-size="7" fill="var(--clr-text-muted)">100B</text>
+              <text x="24" y="23" text-anchor="end" font-family="Inter,sans-serif" font-size="7" fill="var(--clr-text-muted)">150B</text>
+              <!-- X axis labels -->
+              <text x="50"  y="105" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="var(--clr-text-muted)">2021</text>
+              <text x="90"  y="105" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="var(--clr-text-muted)">2022</text>
+              <text x="130" y="105" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="var(--clr-text-muted)">2023</text>
+              <text x="170" y="105" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="var(--clr-text-muted)">2024</text>
+              <text x="210" y="105" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="var(--clr-text-muted)">2025</text>
+              <!-- Area fill -->
+              <path d="M 50 88 C 70 85, 80 78, 90 74 C 110 66, 120 55, 130 48 C 150 36, 160 26, 170 22 C 185 16, 200 14, 210 12 L 210 95 L 50 95 Z" fill="var(--clr-accent)" opacity="0.08"/>
+              <!-- Rising line -->
+              <path d="M 50 88 C 70 85, 80 78, 90 74 C 110 66, 120 55, 130 48 C 150 36, 160 26, 170 22 C 185 16, 200 14, 210 12" stroke="var(--clr-accent)" stroke-width="2" stroke-linecap="round"/>
+              <!-- End dot -->
+              <circle cx="210" cy="12" r="3.5" fill="var(--clr-accent)"/>
+              <text x="214" y="11" font-family="Inter,sans-serif" font-size="9" font-weight="600" fill="var(--clr-accent)">↑</text>
+            </svg>
+          </div>
+
+          <div class="problem-chart">
+            <p class="problem-chart__label">MyAdvocate User Retention</p>
+            <svg viewBox="0 0 240 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Grid lines -->
+              <line x1="30" y1="10" x2="30" y2="95" stroke="var(--clr-border)" stroke-width="1"/>
+              <line x1="30" y1="95" x2="225" y2="95" stroke="var(--clr-border)" stroke-width="1"/>
+              <line x1="30" y1="70" x2="225" y2="70" stroke="var(--clr-border)" stroke-width="0.5" stroke-dasharray="3 3"/>
+              <line x1="30" y1="45" x2="225" y2="45" stroke="var(--clr-border)" stroke-width="0.5" stroke-dasharray="3 3"/>
+              <line x1="30" y1="20" x2="225" y2="20" stroke="var(--clr-border)" stroke-width="0.5" stroke-dasharray="3 3"/>
+              <!-- Y axis labels -->
+              <text x="24" y="98" text-anchor="end" font-family="Inter,sans-serif" font-size="7" fill="var(--clr-text-muted)">0</text>
+              <text x="24" y="73" text-anchor="end" font-family="Inter,sans-serif" font-size="7" fill="var(--clr-text-muted)">25%</text>
+              <text x="24" y="48" text-anchor="end" font-family="Inter,sans-serif" font-size="7" fill="var(--clr-text-muted)">50%</text>
+              <text x="24" y="23" text-anchor="end" font-family="Inter,sans-serif" font-size="7" fill="var(--clr-text-muted)">75%</text>
+              <!-- X axis labels -->
+              <text x="50"  y="105" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="var(--clr-text-muted)">2021</text>
+              <text x="90"  y="105" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="var(--clr-text-muted)">2022</text>
+              <text x="130" y="105" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="var(--clr-text-muted)">2023</text>
+              <text x="170" y="105" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="var(--clr-text-muted)">2024</text>
+              <text x="210" y="105" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="var(--clr-text-muted)">2025</text>
+              <!-- Area fill -->
+              <path d="M 50 72 C 70 71, 80 73, 90 72 C 110 72, 120 74, 130 76 C 150 78, 160 80, 170 82 C 185 84, 200 85, 210 86 L 210 95 L 50 95 Z" fill="#c42010" opacity="0.07"/>
+              <!-- Flat/declining line -->
+              <path d="M 50 72 C 70 71, 80 73, 90 72 C 110 72, 120 74, 130 76 C 150 78, 160 80, 170 82 C 185 84, 200 85, 210 86" stroke="#c42010" stroke-width="2" stroke-linecap="round"/>
+              <!-- End dot -->
+              <circle cx="210" cy="86" r="3.5" fill="#c42010"/>
+              <text x="214" y="90" font-family="Inter,sans-serif" font-size="9" font-weight="600" fill="#c42010">↓</text>
+            </svg>
+          </div>
+        </div>
+
+        <span class="cs-eyebrow">Research</span>
+        <h2>Discovering User Pain Points</h2>
+        <p>
+          I ran 5 moderated usability sessions and user interviews with target-demographic participants to understand the current app experience. Here's what I heard:
+        </p>
+
+        <!-- FigJam sticky board -->
+        <div class="figjam-board">
+          <p class="figjam-board__label">Usability session synthesis — 5 participants</p>
+          <div class="figjam-legend">
+            <div class="figjam-legend__item">
+              <div class="figjam-legend__dot" style="background:#fef08a;"></div>
+              Observation
+            </div>
+            <div class="figjam-legend__item">
+              <div class="figjam-legend__dot" style="background:#fda4af;"></div>
+              Direct quote
+            </div>
+            <div class="figjam-legend__item">
+              <div class="figjam-legend__dot" style="background:#bfdbfe;"></div>
+              Insight / pattern
+            </div>
+          </div>
+          <div class="figjam-cols">
+
+            <div>
+              <p class="figjam-col__heading">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                Instructions
+              </p>
+              <div class="figjam-sticky figjam-sticky--yellow">
+                Too much text on a single screen — no visual hierarchy between steps
+              </div>
+              <div class="figjam-sticky figjam-sticky--pink">
+                "There's so much text — I don't know where to start."
+              </div>
+              <div class="figjam-sticky figjam-sticky--blue">
+                3 of 5 users skipped reading entirely and tapped through
+              </div>
+            </div>
+
+            <div>
+              <p class="figjam-col__heading">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+                Recording
+              </p>
+              <div class="figjam-sticky figjam-sticky--yellow">
+                No feedback on recording duration, cough count, or what to do next — users were left without guidance mid-flow
+              </div>
+              <div class="figjam-sticky figjam-sticky--pink">
+                "Is it actually recording right now? I can't tell if anything is happening."
+              </div>
+              <div class="figjam-sticky figjam-sticky--blue">
+                4 of 5 users tapped the button multiple times out of confusion
+              </div>
+            </div>
+
+            <div>
+              <p class="figjam-col__heading">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                Score
+              </p>
+              <div class="figjam-sticky figjam-sticky--yellow">
+                Scale was all one colour with no labels — users couldn't tell which end was good or bad, and too much information made the key takeaway unclear
+              </div>
+              <div class="figjam-sticky figjam-sticky--pink">
+                "I got a number but I have no idea if that's good or bad for me."
+              </div>
+              <div class="figjam-sticky figjam-sticky--blue">
+                1 of 5 users were able to correctly interpret their score
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Top 3 pain points -->
+        <p style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--clr-text-muted); margin-bottom: var(--space-4);">Top pain points</p>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-8); margin-block: var(--space-8);">
+
+          <div style="border-top: 3px solid #c42010; padding-top: var(--space-5);">
+            <p style="font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; color: #c42010; margin-bottom: var(--space-3);">01</p>
+            <p style="font-size: var(--text-sm); font-weight: 600; color: var(--clr-text); margin-bottom: var(--space-3);">Long instructions are overwhelming</p>
+            <p style="font-size: var(--text-sm); color: var(--clr-text-muted); line-height: 1.65; margin: 0;">Dense, unstructured text caused 3 of 5 users to skip reading entirely, leaving them confused before the recording even started.</p>
+          </div>
+
+          <div style="border-top: 3px solid #c42010; padding-top: var(--space-5);">
+            <p style="font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; color: #c42010; margin-bottom: var(--space-3);">02</p>
+            <p style="font-size: var(--text-sm); font-weight: 600; color: var(--clr-text); margin-bottom: var(--space-3);">No guidance during the recording</p>
+            <p style="font-size: var(--text-sm); color: var(--clr-text-muted); line-height: 1.65; margin: 0;">Users had no feedback on how long they'd been recording, how many coughs were detected, or what to do next, leaving them lost mid-flow.</p>
+          </div>
+
+          <div style="border-top: 3px solid #c42010; padding-top: var(--space-5);">
+            <p style="font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; color: #c42010; margin-bottom: var(--space-3);">03</p>
+            <p style="font-size: var(--text-sm); font-weight: 600; color: var(--clr-text); margin-bottom: var(--space-3);">Score was confusing and unclear</p>
+            <p style="font-size: var(--text-sm); color: var(--clr-text-muted); line-height: 1.65; margin: 0;">A single-colour scale with no labels made it impossible to tell which end was good or bad. Too much surrounding information buried the key takeaway, and only 1 of 5 users interpreted their score correctly.</p>
+          </div>
+
+        </div>
+
+        <span class="cs-eyebrow">Solution</span>
+        <h2>Redesigning the core experience to turn complexity into clarity</h2>
+        <p>With a clear picture of where users were struggling, my main goals were to increase the readability of the experience and simplify complexity, making the app easier to understand at every step.</p>
+
+        <!-- Feature 1 -->
+        <div class="cs-feature">
+          <div class="cs-feature__header">
+            <!-- Speech bubble icon -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--clr-text-muted)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-feature__icon"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <h3 class="cs-feature__title">Onboarding Instructions</h3>
+          </div>
+          <p style="font-size: var(--text-sm); color: var(--clr-text-muted); margin-bottom: var(--space-6);">To guide the redesign, I referenced onboarding flows from industry leaders like Wealthsimple, Duolingo, and Headspace. Most used full-screen cards with minimal content, walking users through each step one at a time. I worked with the CEO to define a more accessible and readable colour palette, and used that to design a new card component with clear visual hierarchy.</p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-bottom: var(--space-6);">
+            <div>
+              <img src="images/new style guide.png" alt="New style guide" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 20px; display: block; margin: 0;" />
+              <p style="font-size: var(--text-xs); font-weight: 300; color: var(--clr-text-muted); text-align: center; margin-top: var(--space-2); margin-bottom: 0;">Refreshed Colour Palette</p>
+            </div>
+            <div>
+              <img src="images/card atonomy.png" alt="Card anatomy" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 20px; display: block; margin: 0;" />
+              <p style="font-size: var(--text-xs); font-weight: 300; color: var(--clr-text-muted); text-align: center; margin-top: var(--space-2); margin-bottom: 0;">Card Component Anatomy</p>
+            </div>
+          </div>
+          <div class="cs-feature__columns" style="margin-top: var(--space-16);">
+            <div class="cs-feature__side cs-feature__side--before">
+              <p class="cs-feature__label">Before</p>
+              <ul class="cs-feature__list cs-feature__list--before">
+                <li>Instructions were too long and text-heavy</li>
+                <li>No clear visual hierarchy between steps</li>
+                <li>Users felt overwhelmed and skipped reading</li>
+              </ul>
+              <img src="images/Old Screen 1.png" alt="Before — Instructions screen" style="width:60%; border-radius: 20px; margin-block: var(--space-8); display: block; margin-inline: auto;" />
+            </div>
+            <div class="cs-feature__side cs-feature__side--after">
+              <p class="cs-feature__label">After</p>
+              <ul class="cs-feature__list cs-feature__list--after">
+                <li>Condensed to 3 clear, scannable steps</li>
+                <li>Visual hierarchy guides the eye naturally</li>
+                <li>Users can easily listen to a recording example before recording</li>
+              </ul>
+              <div style="width:50%; margin-block: var(--space-8); margin-inline: auto; overflow:hidden; border-radius: 40px;">
+                <video src="images/Feature 1- Instructions.mp4" autoplay loop muted playsinline style="width:100%; display:block; margin-top:-5px;"></video>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Feature 2 -->
+        <div class="cs-feature">
+          <div class="cs-feature__header">
+            <!-- Mic icon -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--clr-text-muted)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-feature__icon"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            <h3 class="cs-feature__title">Recording State</h3>
+          </div>
+          <p style="font-size: var(--text-sm); color: var(--clr-text-muted); margin-bottom: var(--space-6);">I looked to voice recording apps and AI text-to-speech tools to understand what a clear active state looked like. Most used a combination of colour and on-screen text to clarify when recording was in progress and guide users through it. I added a clear timer and scale to keep users on track, and introduced AI-inspired animations to make the experience feel more intelligent and responsive.</p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-bottom: var(--space-6);">
+            <div>
+              <div style="overflow: hidden; border-radius: 20px; aspect-ratio: 4/3;">
+                <video src="images/Timer Components.mov" autoplay loop muted playsinline style="width: 100%; height: calc(100% + 20px); object-fit: cover; display: block; margin-top: -10px;"></video>
+              </div>
+              <p style="font-size: var(--text-xs); font-weight: 300; color: var(--clr-text-muted); text-align: center; margin-top: var(--space-2); margin-bottom: 0;">New Recording Timer and Scale Components</p>
+            </div>
+            <div>
+              <div style="overflow: hidden; border-radius: 20px; aspect-ratio: 4/3;">
+                <video src="images/AI Analyzing State.mov" autoplay loop muted playsinline style="width: 100%; height: calc(100% + 20px); object-fit: cover; display: block; margin-top: -10px;"></video>
+              </div>
+              <p style="font-size: var(--text-xs); font-weight: 300; color: var(--clr-text-muted); text-align: center; margin-top: var(--space-2); margin-bottom: 0;">New AI Analyzing Animation</p>
+            </div>
+          </div>
+          <div class="cs-feature__columns" style="margin-top: var(--space-16);">
+            <div class="cs-feature__side cs-feature__side--before">
+              <p class="cs-feature__label">Before</p>
+              <ul class="cs-feature__list cs-feature__list--before">
+                <li>No clear indication of what to do next</li>
+                <li>Users didn't know how long to cough for</li>
+                <li>Users pressed the button multiple times out of confusion</li>
+              </ul>
+              <img src="images/Old Screen 2&3.png" alt="Before — Recording screen" style="width:100%; border-radius: 20px; margin-block: var(--space-8);" />
+            </div>
+            <div class="cs-feature__side cs-feature__side--after">
+              <p class="cs-feature__label">After</p>
+              <ul class="cs-feature__list cs-feature__list--after">
+                <li>Prominent active state with animated visual feedback</li>
+                <li>Live timer shows recording duration and clear next steps</li>
+                <li>Users felt confident the app was listening</li>
+              </ul>
+              <video src="images/Feature 2 - Recording.mp4" autoplay loop muted playsinline style="width:50%; border-radius: 40px; margin-block: var(--space-8); display:block; margin-inline: auto;"></video>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="cs-feature">
+          <div class="cs-feature__header">
+            <!-- Gauge/chart icon -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--clr-text-muted)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-feature__icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/></svg>
+            <h3 class="cs-feature__title">Score Readability</h3>
+          </div>
+          <p style="font-size: var(--text-sm); color: var(--clr-text-muted); margin-bottom: var(--space-6);">For the score screen, I referenced bank apps for credit score UI and health apps like Fitbit for sleep score design. Across all of them, I noticed a consistent pattern: a colourful scale to rate the score and clear plain-language interpretation. I created an AI score interpretation card to give users a quick, digestible summary at a glance.</p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-bottom: var(--space-6);">
+            <div>
+              <img src="images/Scale Component.png" alt="Scale component" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 20px; display: block; margin: 0;" />
+              <p style="font-size: var(--text-xs); font-weight: 300; color: var(--clr-text-muted); text-align: center; margin-top: var(--space-2); margin-bottom: 0;">Redesigned Scale with Colours and Axis Labels</p>
+            </div>
+            <div>
+              <div style="overflow: hidden; border-radius: 20px; aspect-ratio: 4/3;">
+                <video id="score-interp-video" src="images/Score Interpretation.mov" autoplay muted playsinline style="width: 100%; height: calc(100% + 20px); object-fit: cover; display: block; margin-top: -10px; transition: opacity 0.6s ease;"></video>
+              </div>
+              <p style="font-size: var(--text-xs); font-weight: 300; color: var(--clr-text-muted); text-align: center; margin-top: var(--space-2); margin-bottom: 0;">AI Score Interpretation Card</p>
+            </div>
+          </div>
+          <div class="cs-feature__columns" style="margin-top: var(--space-16);">
+            <div class="cs-feature__side cs-feature__side--before">
+              <p class="cs-feature__label">Before</p>
+              <ul class="cs-feature__list cs-feature__list--before">
+                <li>Poor background and font contrast made text hard to read</li>
+                <li>Score was displayed as a number with no context</li>
+                <li>Users didn't know if their score was good or bad</li>
+              </ul>
+              <img src="images/Old Screen 4.png" alt="Before — Score screen" style="width:60%; border-radius: 20px; margin-block: var(--space-8); display: block; margin-inline: auto;" />
+            </div>
+            <div class="cs-feature__side cs-feature__side--after">
+              <p class="cs-feature__label">After</p>
+              <ul class="cs-feature__list cs-feature__list--after">
+                <li>High-contrast colour system meets accessibility standards</li>
+                <li>Score shown on a visual scale with clear range indicators</li>
+                <li>Plain-language summary explains what the score means</li>
+              </ul>
+              <video src="images/Feature 3- Score.mp4" autoplay loop muted playsinline style="width:50%; border-radius: 40px; margin-block: var(--space-8); display:block; margin-inline: auto;"></video>
+            </div>
+          </div>
+        </div>
+
+        <span class="cs-eyebrow">Results</span>
+        <h2>Outcomes</h2>
+
+        <div class="outcome-grid">
+          <div class="outcome">
+            <p class="outcome__stat">↑ 40%</p>
+            <p class="outcome__label">Improvement in usability scores based on the task success rate of recording a cough, after redesigning onboarding, recording, and results screens.</p>
+          </div>
+          <div class="outcome">
+            <p class="outcome__stat">15+</p>
+            <p class="outcome__label">New reusable components that increase the speed of future implementation.</p>
+          </div>
+          <div class="outcome">
+            <p class="outcome__stat">AAA</p>
+            <p class="outcome__label">Redesigned colour palette meets AAA accessibility standards, ensuring the app is readable for users across all visual abilities.</p>
+          </div>
+        </div>
+
+        <span class="cs-eyebrow">Learnings</span>
+        <h2>Reflections</h2>
+        <p>
+          Working at MyAdvocate taught me what it really means to design in an <mark class="highlight">agile startup environment</mark>. With a small, fast-moving team of developers and data scientists, I learned to communicate design decisions quickly, advocate for the user in technical conversations, and adapt when priorities shifted overnight.
+        </p>
+        <p>
+          One of the most valuable experiences was <mark class="highlight">designing features from 0 to 1</mark>, starting from ambiguity and shaping ideas into fully realised flows. I worked across the full spectrum of design, from <mark class="highlight">big picture user flows</mark> that mapped the entire app experience, to the smallest <mark class="highlight">micro-interactions</mark> that made individual moments feel polished and intentional.
+        </p>
+        <p>
+          Collaborating closely with engineers and data scientists also deepened my understanding of technical constraints and how to design confidently within them. I left with a much stronger instinct for what to prioritize, when to push back, and how to move fast without compromising quality.
+        </p>
+
+        <!-- Next / prev project navigation -->
+        <nav class="cs-nav" aria-label="Project navigation">
+          <a href="case-study-2.html">← Previous project</a>
+          <a href="case-study-2.html">Next project →</a>
+        </nav>
+
+      </div>
+    </article>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p style="font-size: var(--text-sm); font-weight: 300; color: var(--clr-text-muted);">Take a breath. Stay a while.</p>
+      <p>&copy; 2026 Catherine Lin</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll('.score-slide'));
+      if (!slides.length) return;
+
+      // Shuffle into a random order, ensuring consecutive scores feel like movement
+      const order = [2, 4, 1, 3, 0]; // Ok → Great → Poor → Good → Very Poor (varied range)
+
+      let current = 0;
+      slides[order[0]].classList.add('active');
+
+      setInterval(() => {
+        slides[order[current]].classList.remove('active');
+        current = (current + 1) % order.length;
+        slides[order[current]].classList.add('active');
+      }, 2800);
+    })();
+  </script>
+  <script>
+    (function () {
+      const vid = document.getElementById('score-interp-video');
+      if (!vid) return;
+      vid.addEventListener('timeupdate', function () {
+        if (vid.duration && vid.currentTime >= vid.duration - 0.3) {
+          vid.pause();
+          setTimeout(function () {
+            vid.style.opacity = '0';
+            setTimeout(function () {
+              vid.currentTime = 0;
+              vid.play();
+              vid.style.opacity = '1';
+            }, 600);
+          }, 1000);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wilds — Wildlife Spotting App Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #e8f0e2;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .phone { position: relative; z-index: 1; }
+
+    /* ── Phone frame ── */
+    .phone {
+      width: 390px;
+      height: 844px;
+      background: #1a1a1a;
+      border-radius: 54px;
+      padding: 12px;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.08);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .phone__screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 44px;
+      overflow: hidden;
+      position: relative;
+      background: #0f1a10;
+    }
+
+    /* Notch */
+    .phone__notch {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 34px;
+      background: #1a1a1a;
+      border-radius: 20px;
+      z-index: 100;
+    }
+
+    /* ── Status bar ── */
+    .status-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 54px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 0 28px 8px;
+      z-index: 50;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-bar__icons {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    /* ── Map background ── */
+    .map {
+      position: absolute;
+      inset: 0;
+      background: #5b9bb5;
+      overflow: hidden;
+      cursor: grab;
+    }
+
+    .map:active { cursor: grabbing; }
+
+    .map svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(35deg) scale(1.4) translate(0px, 60px);
+      transform-origin: center center;
+      transition: none;
+      will-change: transform;
+    }
+    .map svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ── Top bar ── */
+    .top-bar {
+      position: absolute;
+      top: 54px;
+      left: 0;
+      right: 0;
+      padding: 12px 16px;
+      z-index: 30;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .app-logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.03em;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+    }
+
+    .search-bar {
+      flex: 1;
+      background: rgba(255,255,255,0.95);
+      border-radius: 14px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    }
+
+    .search-bar svg { flex-shrink: 0; opacity: 0.4; }
+
+    .search-bar span {
+      font-size: 13px;
+      color: #888;
+      font-weight: 400;
+    }
+
+    /* ── Filter chips ── */
+    .filters {
+      position: absolute;
+      top: 118px;
+      left: 0;
+      right: 0;
+      padding: 0 16px;
+      display: flex;
+      gap: 8px;
+      z-index: 30;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .filters::-webkit-scrollbar { display: none; }
+
+    .chip {
+      background: rgba(255,255,255,0.92);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #1a1a1a;
+      white-space: nowrap;
+      cursor: pointer;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+      transition: background 0.15s, color 0.15s;
+      flex-shrink: 0;
+    }
+
+    .chip.active {
+      background: #2d6a2e;
+      color: #fff;
+    }
+
+    .chip:hover { background: #e8f5e9; }
+    .chip.active:hover { background: #245824; }
+
+    /* ── Map pins ── */
+    .pin {
+      position: absolute;
+      cursor: pointer;
+      z-index: 20;
+      transform: translate(-50%, -100%);
+      transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    .pin:hover { transform: translate(-50%, -100%) scale(1.15); }
+    .pin.pulse .pin__dot::after {
+      animation: pinPulse 2s ease-out infinite;
+    }
+
+    .pin__bubble {
+      background: #fff;
+      border-radius: 12px;
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .pin__bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 7px solid #fff;
+    }
+
+    .pin__emoji { font-size: 16px; }
+
+    .pin__info { display: flex; flex-direction: column; }
+
+    .pin__name {
+      font-size: 11px;
+      font-weight: 600;
+      color: #1a1a1a;
+      line-height: 1.2;
+    }
+
+    .pin__time {
+      font-size: 10px;
+      color: #888;
+      font-weight: 400;
+    }
+
+    .pin__dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #2d6a2e;
+      position: relative;
+      margin: 4px auto 0;
+    }
+
+    .pin.recent .pin__dot { background: #e8823a; }
+
+    @keyframes pinPulse {
+      0% { transform: scale(1); opacity: 0.6; }
+      100% { transform: scale(3); opacity: 0; }
+    }
+
+    .pin__dot::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: inherit;
+    }
+
+    /* ── Nearby alert banner ── */
+    .alert-banner {
+      position: absolute;
+      top: 60px;
+      left: 16px;
+      right: 16px;
+      background: #fff;
+      border-radius: 18px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      z-index: 60;
+      transform: translateY(-120px);
+      opacity: 0;
+      transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.4s ease;
+    }
+
+    .alert-banner.visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .alert-banner__icon {
+      width: 44px;
+      height: 44px;
+      background: #fff3e0;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .alert-banner__text { flex: 1; }
+
+    .alert-banner__title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 2px;
+    }
+
+    .alert-banner__sub {
+      font-size: 12px;
+      color: #888;
+      font-weight: 400;
+    }
+
+    .alert-banner__badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: #e8823a;
+      background: #fff3e0;
+      padding: 4px 8px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    .alert-banner__close {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #bbb;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .alert-confirm__title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+
+    .alert-confirm__sub {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .alert-confirm__btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .alert-confirm__btn {
+      flex: 1;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 0;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: opacity 0.15s;
+    }
+
+    .alert-confirm__btn--yes { background: #e8f5e9; color: #2d6a2e; }
+    .alert-confirm__btn--no  { background: #f5f5f5; color: #888; }
+    .alert-confirm__btn:hover { opacity: 0.8; }
+
+    /* ── Recent sightings strip ── */
+    .recent-strip {
+      position: absolute;
+      bottom: 100px;
+      left: 0;
+      right: 0;
+      z-index: 30;
+      padding: 0 16px;
+    }
+
+    .recent-strip__label {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
+
+    .recent-strip__cards {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+    }
+
+    .recent-strip__cards::-webkit-scrollbar { display: none; }
+
+    .recent-card {
+      background: rgba(255,255,255,0.95);
+      border-radius: 14px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+      cursor: pointer;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+      transition: transform 0.15s;
+      min-width: 160px;
+    }
+
+    .recent-card:hover { transform: translateY(-2px); }
+
+    .recent-card__photo {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: #c8e6c9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .recent-card__name {
+      font-size: 12px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .recent-card__meta {
+      font-size: 11px;
+      color: #888;
+      margin-top: 1px;
+    }
+
+    .recent-card__distance {
+      font-size: 10px;
+      font-weight: 600;
+      color: #2d6a2e;
+      background: #e8f5e9;
+      padding: 2px 7px;
+      border-radius: 999px;
+      margin-top: 3px;
+      display: inline-block;
+    }
+
+    /* ── Bottom nav ── */
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 90px;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(0,0,0,0.06);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding-top: 10px;
+      padding-inline: 8px;
+      z-index: 40;
+    }
+
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .nav-item__icon {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #bbb;
+    }
+
+    .nav-item__label {
+      font-size: 10px;
+      font-weight: 500;
+      color: #aaa;
+    }
+
+    .nav-item.active .nav-item__icon {
+      color: #2d6a2e;
+      background: #e8f5e9;
+      border-radius: 12px;
+      width: 44px;
+      height: 28px;
+    }
+    .nav-item.active .nav-item__label { color: #2d6a2e; }
+
+    .nav-item__log {
+      width: 52px;
+      height: 52px;
+      background: #2d6a2e;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(45,106,46,0.4);
+      color: #fff;
+      font-size: 26px;
+      margin-top: -20px;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.15s;
+    }
+
+    .nav-item__log:hover { transform: scale(1.08); background: #245824; }
+
+    /* ── Detail card (slide up) ── */
+    .detail-card {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border-radius: 28px 28px 0 0;
+      z-index: 70;
+      transform: translateY(100%);
+      transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+      box-shadow: 0 -8px 40px rgba(0,0,0,0.2);
+    }
+
+    .detail-card.open { transform: translateY(0); }
+
+    .detail-card__handle {
+      width: 36px;
+      height: 4px;
+      background: #e0e0e0;
+      border-radius: 999px;
+      margin: 12px auto 0;
+    }
+
+    .detail-card__photo {
+      width: calc(100% - 32px);
+      height: 200px;
+      margin: 16px 16px 0;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #a8d5a2 0%, #6ab187 50%, #3d8b5e 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .detail-card__photo-label {
+      position: absolute;
+      bottom: 10px;
+      left: 12px;
+      background: rgba(0,0,0,0.45);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 999px;
+      backdrop-filter: blur(4px);
+    }
+
+    .detail-card__body { padding: 16px 20px 20px; }
+
+    .detail-card__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .detail-card__species {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: -0.02em;
+    }
+
+    .detail-card__fresh {
+      font-size: 11px;
+      font-weight: 600;
+      color: #e8823a;
+      background: #fff3e0;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .detail-card__location {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 16px;
+    }
+
+    .detail-card__stats {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .stat {
+      flex: 1;
+      background: #f5f5f5;
+      border-radius: 14px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .stat__value {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 2px;
+    }
+
+    .stat__label {
+      font-size: 10px;
+      font-weight: 500;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .detail-card__user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      background: #f9f9f9;
+      border-radius: 14px;
+      margin-bottom: 16px;
+    }
+
+    .detail-card__avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #a8d5a2, #3d8b5e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .detail-card__username {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .detail-card__usernote {
+      font-size: 12px;
+      color: #888;
+      margin-top: 1px;
+    }
+
+    .detail-card__btn {
+      width: 100%;
+      background: #2d6a2e;
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      padding: 16px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.15s;
+    }
+
+    .detail-card__btn:hover { background: #245824; }
+
+    .detail-card__close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 32px;
+      height: 32px;
+      background: #f0f0f0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      color: #666;
+    }
+
+    /* ── Overlay dim ── */
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 65;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s;
+      border-radius: 44px;
+    }
+
+    .overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* ── Log sighting sheet ── */
+    .log-sheet {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border-radius: 28px 28px 0 0;
+      z-index: 80;
+      transform: translateY(100%);
+      transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+      padding: 0 20px 32px;
+      box-shadow: 0 -8px 40px rgba(0,0,0,0.2);
+    }
+
+    .log-sheet.open { transform: translateY(0); }
+
+    .log-sheet__handle {
+      width: 36px;
+      height: 4px;
+      background: #e0e0e0;
+      border-radius: 999px;
+      margin: 12px auto 20px;
+    }
+
+    .log-sheet__title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+
+    .log-sheet__sub {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 20px;
+    }
+
+    .log-sheet__species {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .species-btn {
+      background: #f5f5f5;
+      border: 2px solid transparent;
+      border-radius: 14px;
+      padding: 12px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .species-btn.selected {
+      background: #e8f5e9;
+      border-color: #2d6a2e;
+    }
+
+    .species-btn__emoji { font-size: 22px; }
+    .species-btn__name { font-size: 10px; font-weight: 500; color: #555; text-align: center; }
+
+    .log-sheet__photo-btn {
+      width: 100%;
+      border: 2px dashed #ddd;
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      margin-bottom: 16px;
+      background: #fafafa;
+    }
+
+    .log-sheet__photo-btn span:first-child { font-size: 24px; }
+    .log-sheet__photo-btn span:last-child { font-size: 12px; color: #aaa; font-weight: 500; }
+
+    .log-sheet__submit {
+      width: 100%;
+      background: #2d6a2e;
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      padding: 16px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.15s;
+    }
+
+    .log-sheet__submit:hover { background: #245824; }
+
+    /* ── Spottings list ── */
+    .spottings-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .spotting-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 14px;
+      background: #f9f9f9;
+    }
+
+    .spotting-row__icon {
+      width: 40px;
+      height: 40px;
+      background: #e8f5e9;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .spotting-row__info { flex: 1; }
+
+    .spotting-row__name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .spotting-row__meta {
+      font-size: 11px;
+      color: #aaa;
+      margin-top: 2px;
+    }
+
+    .spotting-row__badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    .spotting-row__badge--new {
+      background: #e8f5e9;
+      color: #2d6a2e;
+    }
+
+    /* ── ETA navigation bar ── */
+    .nav-eta {
+      position: absolute;
+      bottom: 90px;
+      left: 12px;
+      right: 12px;
+      background: #fff;
+      border-radius: 20px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      z-index: 45;
+      transform: translateY(20px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.3s ease;
+    }
+
+    .nav-eta.visible {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .nav-eta__time {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .nav-eta__detail {
+      font-size: 11px;
+      color: #888;
+      margin-top: 3px;
+    }
+
+    .nav-eta__actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .nav-eta__btn {
+      border: none;
+      border-radius: 12px;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: opacity 0.15s;
+    }
+
+    .nav-eta__btn--start {
+      background: #2d6a2e;
+      color: #fff;
+    }
+
+    .nav-eta__btn--cancel {
+      background: #f0f0f0;
+      color: #555;
+    }
+
+    .nav-eta__btn:hover { opacity: 0.85; }
+
+    /* ── Navigation route animation ── */    @keyframes drawRoute {
+      to { stroke-dashoffset: 0; }
+    }
+    #routePath.animating {
+      animation: drawRoute 1.8s cubic-bezier(0.4,0,0.2,1) forwards;
+    }
+    /* Selected pin highlight */
+    .svg-pin.selected circle:last-child {
+      r: 8;
+      stroke: #4285f4;
+      stroke-width: 3;
+    }
+    .svg-pin.selected rect {
+      fill: #e8f0fe;
+      stroke: #4285f4;
+      stroke-width: 2.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="phone">
+    <div class="phone__notch"></div>
+    <div class="phone__screen">
+
+      <!-- Status bar -->
+      <div class="status-bar">
+        <span>9:41</span>
+        <div class="status-bar__icons">
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><rect x="0" y="3" width="3" height="9" rx="1"/><rect x="4.5" y="2" width="3" height="10" rx="1"/><rect x="9" y="0" width="3" height="12" rx="1"/><rect x="13.5" y="0" width="2.5" height="12" rx="1" opacity="0.3"/></svg>
+          <svg width="16" height="12" viewBox="0 0 24 12" fill="white"><rect x="0" y="1" width="20" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="21" y="3.5" width="2" height="5" rx="1" fill="white" opacity="0.5"/><rect x="1.5" y="2.5" width="14" height="7" rx="1.5" fill="white"/></svg>
+        </div>
+      </div>
+
+      <!-- Nearby alert banner -->
+      <div class="alert-banner" id="alertBanner">
+        <!-- Default state -->
+        <div id="alertDefault" style="display:flex;align-items:center;gap:12px;width:100%;">
+          <div class="alert-banner__icon">🦉</div>
+          <div class="alert-banner__text">
+            <div class="alert-banner__title">Great Horned Owl spotted!</div>
+            <div class="alert-banner__sub">Beaver Lake Trail · just now</div>
+          </div>
+          <div class="alert-banner__badge">80m away</div>
+          <div class="alert-banner__close" id="alertClose">✕</div>
+        </div>
+        <!-- Confirm state -->
+        <div id="alertConfirm" style="display:none;width:100%;">
+          <div class="alert-confirm__title">Still there? 👀</div>
+          <div class="alert-confirm__sub">Help others know if the owl is still at Beaver Lake Trail.</div>
+          <div class="alert-confirm__btns">
+            <button class="alert-confirm__btn alert-confirm__btn--yes" id="confirmYes">✓ Still there</button>
+            <button class="alert-confirm__btn alert-confirm__btn--no" id="confirmNo">✗ Gone now</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Map -->
+      <div class="map">
+        <svg viewBox="0 0 390 844" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- Water -->
+          <rect width="390" height="844" fill="#5b9bb5"/>
+
+          <!-- Subtle water texture -->
+          <path d="M 0 300 Q 100 290, 200 305 Q 300 320, 390 300" stroke="rgba(255,255,255,0.06)" stroke-width="1.5" fill="none"/>
+          <path d="M 0 500 Q 80 488, 180 502 Q 290 516, 390 498" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
+
+          <!-- ── Stanley Park peninsula — traced from reference image ──
+               The shape: wide top, fairly straight left side, bottom-left beach bay,
+               bottom narrows to causeway point, right side has large Brockton Point
+               peninsula jutting east with a notch above it, top-right curves back.
+          -->
+          <path d="
+            M 155 100
+            C 168 88, 188 82, 210 82
+            C 232 82, 255 88, 272 98
+            C 288 108, 300 118, 308 130
+            C 316 142, 320 156, 322 170
+
+            C 330 168, 342 164, 352 170
+            C 362 176, 368 188, 366 202
+            C 364 216, 354 228, 342 234
+            C 332 240, 320 240, 318 244
+
+            C 328 262, 334 282, 332 304
+            C 330 324, 318 342, 310 352
+
+            C 324 358, 342 364, 354 376
+            C 366 388, 370 406, 364 422
+            C 358 438, 342 450, 326 456
+            C 312 462, 298 460, 290 458
+
+            C 282 472, 274 488, 264 502
+            C 254 516, 240 528, 226 538
+
+            C 224 552, 222 568, 216 582
+            C 210 596, 198 608, 188 618
+            C 178 628, 166 634, 158 638
+
+            C 152 650, 148 664, 146 678
+            C 144 692, 146 708, 150 722
+            L 155 742
+            L 162 755
+            L 172 762
+            L 186 762
+            L 196 754
+            L 202 742
+            L 204 728
+            C 202 714, 198 700, 196 686
+            C 196 672, 200 658, 206 648
+
+            C 196 638, 184 624, 176 608
+            C 168 590, 166 568, 170 548
+            C 174 528, 184 510, 194 498
+
+            C 180 486, 162 470, 148 452
+            C 132 432, 120 408, 112 384
+            C 104 360, 100 334, 100 308
+            C 100 282, 106 256, 116 232
+            C 126 208, 140 186, 155 170
+            C 148 156, 144 138, 155 100
+            Z
+          " fill="#3d6e3d"/>
+
+          <!-- Darker forest interior -->
+          <path d="
+            M 168 112
+            C 184 100, 206 96, 226 100
+            C 246 104, 264 116, 276 132
+            C 288 148, 294 168, 292 188
+
+            C 302 186, 314 184, 322 190
+            C 332 196, 336 210, 332 222
+            C 328 234, 316 242, 306 244
+
+            C 316 262, 320 284, 316 304
+            C 312 322, 300 338, 292 348
+
+            C 306 356, 320 366, 328 380
+            C 336 394, 336 412, 326 424
+            C 318 434, 304 440, 292 442
+
+            C 280 458, 268 474, 254 486
+            C 242 498, 226 508, 214 518
+
+            C 214 534, 214 552, 208 568
+            C 202 584, 190 596, 180 606
+
+            C 178 618, 178 634, 180 648
+            C 180 660, 178 674, 174 686
+
+            C 164 672, 156 656, 154 640
+            C 152 624, 156 608, 162 596
+            C 168 584, 176 574, 180 562
+            C 184 548, 182 532, 180 518
+            C 178 504, 172 492, 164 480
+            C 154 466, 140 454, 130 438
+            C 118 420, 112 398, 110 376
+            C 108 354, 112 330, 120 308
+            C 128 286, 140 266, 154 250
+            C 166 236, 178 224, 182 210
+            C 172 196, 164 180, 164 164
+            C 164 146, 166 128, 168 112
+            Z
+          " fill="#2f5c2f" opacity="0.6"/>
+
+          <!-- ── Beaver Lake ── -->
+          <ellipse cx="222" cy="370" rx="26" ry="16" fill="#5ba3b8" opacity="0.85"/>
+          <ellipse cx="222" cy="370" rx="18" ry="10" fill="#6ab8cc" opacity="0.6"/>
+          <text x="222" y="394" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" fill="rgba(255,255,255,0.55)" font-weight="500">Beaver Lake</text>
+
+          <!-- ── Lost Lagoon ── -->
+          <ellipse cx="190" cy="680" rx="16" ry="9" fill="#5ba3b8" opacity="0.75"/>
+          <text x="190" y="696" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="rgba(255,255,255,0.5)" font-weight="500">Lost Lagoon</text>
+
+          <!-- ── Landmark labels ── -->
+          <circle cx="214" cy="84" r="3" fill="rgba(255,255,255,0.5)"/>
+          <text x="214" y="76" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" fill="rgba(255,255,255,0.6)" font-weight="600">Prospect Pt</text>
+
+          <circle cx="356" cy="390" r="3" fill="rgba(255,255,255,0.5)"/>
+          <text x="364" y="388" text-anchor="start" font-family="Inter, sans-serif" font-size="7.5" fill="rgba(255,255,255,0.55)" font-weight="500">Brockton Pt</text>
+
+          <!-- Tree clusters -->
+          <circle cx="148" cy="200" r="13" fill="#264d26" opacity="0.55"/>
+          <circle cx="164" cy="188" r="9" fill="#264d26" opacity="0.45"/>
+          <circle cx="290" cy="180" r="15" fill="#264d26" opacity="0.55"/>
+          <circle cx="308" cy="196" r="10" fill="#264d26" opacity="0.45"/>
+          <circle cx="112" cy="330" r="12" fill="#264d26" opacity="0.5"/>
+          <circle cx="340" cy="300" r="11" fill="#264d26" opacity="0.5"/>
+          <circle cx="156" cy="450" r="10" fill="#264d26" opacity="0.45"/>
+          <circle cx="274" cy="460" r="12" fill="#264d26" opacity="0.5"/>
+          <circle cx="196" cy="500" r="9" fill="#264d26" opacity="0.4"/>
+
+          <!-- Park label -->
+          <text x="210" y="310" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="rgba(255,255,255,0.15)" letter-spacing="0.14em">STANLEY PARK</text>
+
+          <!-- Vancouver city hint -->
+          <rect x="240" y="790" width="150" height="54" fill="#8a9a8a" opacity="0.25" rx="4"/>
+          <text x="316" y="824" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,0.25)" font-weight="600" letter-spacing="0.08em">VANCOUVER</text>
+
+          <!-- ── Navigation route (shown on Navigate Here) ── -->
+          <g id="navRoute" style="display:none">
+            <!-- "You are here" dot -->
+            <circle cx="195" cy="720" r="8" fill="#4285f4" stroke="white" stroke-width="3"/>
+            <circle cx="195" cy="720" r="14" fill="#4285f4" opacity="0.2"/>
+            <!-- Winding route path to owl pin (250,296) — follows trails -->
+            <path id="routePath" d="M 195 720 C 188 680, 170 640, 168 600 C 166 565, 178 540, 182 510 C 186 478, 172 455, 160 428 C 148 400, 140 368, 148 338 C 156 308, 176 284, 192 262 C 208 240, 228 228, 238 212 C 246 200, 248 186, 250 296"
+              fill="none" stroke="#4285f4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
+              stroke-dasharray="900" stroke-dashoffset="900"/>
+          </g>
+
+          <!-- ── SVG Pins ── emoji 15px, text starts at x=-32, 10px right padding -->
+
+          <g class="svg-pin" data-id="pin1" style="cursor:pointer" transform="translate(250,296) rotate(-35)">
+            <rect x="-50" y="-52" width="134" height="38" rx="10" fill="white" filter="url(#pinShadow)"/>
+            <text x="-42" y="-28" font-family="Inter,sans-serif" font-size="15" dominant-baseline="middle">🦉</text>
+            <text x="-20" y="-38" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#1a1a1a" dominant-baseline="middle">Great Horned Owl</text>
+            <text x="-20" y="-23" font-family="Inter,sans-serif" font-size="9" fill="#888" dominant-baseline="middle">2 min ago</text>
+            <polygon points="-5,-14 0,-8 5,-14" fill="white"/>
+            <circle cx="0" cy="0" r="5" fill="#e8823a" class="pin-dot" style="display:none"/>
+          </g>
+
+          <g class="svg-pin" data-id="pin3" style="cursor:pointer" transform="translate(150,236) rotate(-35)">
+            <rect x="-50" y="-52" width="104" height="38" rx="10" fill="white" filter="url(#pinShadow)"/>
+            <text x="-42" y="-28" font-family="Inter,sans-serif" font-size="15" dominant-baseline="middle">🦅</text>
+            <text x="-20" y="-38" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#1a1a1a" dominant-baseline="middle">Bald Eagle</text>
+            <text x="-20" y="-23" font-family="Inter,sans-serif" font-size="9" fill="#888" dominant-baseline="middle">38 min ago</text>
+            <polygon points="-5,-14 0,-8 5,-14" fill="white"/>
+            <circle cx="0" cy="0" r="5" fill="#2d6a2e"/>
+          </g>
+
+          <g class="svg-pin" data-id="pin4" style="cursor:pointer" transform="translate(240,440) rotate(-35)">
+            <rect x="-50" y="-52" width="98" height="38" rx="10" fill="white" filter="url(#pinShadow)"/>
+            <text x="-42" y="-28" font-family="Inter,sans-serif" font-size="15" dominant-baseline="middle">🦦</text>
+            <text x="-20" y="-38" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#1a1a1a" dominant-baseline="middle">River Otter</text>
+            <text x="-20" y="-23" font-family="Inter,sans-serif" font-size="9" fill="#888" dominant-baseline="middle">1 hr ago</text>
+            <polygon points="-5,-14 0,-8 5,-14" fill="white"/>
+            <circle cx="0" cy="0" r="5" fill="#2d6a2e"/>
+          </g>
+
+          <defs>
+            <filter id="pinShadow" x="-20%" y="-20%" width="140%" height="160%">
+              <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.18)"/>
+            </filter>
+          </defs>
+
+        </svg>
+      </div>
+
+      <!-- Top bar -->
+      <div class="top-bar">
+        <span class="app-logo">wilds</span>
+        <div class="search-bar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <span>Search Stanley Park...</span>
+        </div>
+      </div>
+
+      <!-- Filter chips -->
+      <div class="filters">
+        <div class="chip active">All</div>
+        <div class="chip">🦉 Owls</div>
+        <div class="chip">🐦 Birds</div>
+        <div class="chip">🐋 Whales</div>
+        <div class="chip">🦩 Herons</div>
+        <div class="chip">🦦 Otters</div>
+      </div>
+
+      <!-- Map pins -->
+      <div id="pinLayer" style="position:absolute;inset:0;pointer-events:none;z-index:20;">
+      </div>
+
+      <!-- Recent sightings strip -->
+      <div class="recent-strip">
+        <div class="recent-strip__label">Recent Sightings</div>
+        <div class="recent-strip__cards">
+          <div class="recent-card" id="recentCard1">
+            <div class="recent-card__photo">🦉</div>
+            <div>
+              <div class="recent-card__name">Great Horned Owl</div>
+              <div class="recent-card__meta">Beaver Lake · 2 min ago</div>
+              <span class="recent-card__distance">80m away</span>
+            </div>
+          </div>
+          <div class="recent-card" id="recentCard2">
+            <div class="recent-card__photo">🦩</div>
+            <div>
+              <div class="recent-card__name">Great Blue Heron</div>
+              <div class="recent-card__meta">Lost Lagoon · 14 min</div>
+              <span class="recent-card__distance">320m away</span>
+            </div>
+          </div>
+          <div class="recent-card" id="recentCard3">
+            <div class="recent-card__photo">🦅</div>
+            <div>
+              <div class="recent-card__name">Bald Eagle</div>
+              <div class="recent-card__meta">Prospect Point · 38 min</div>
+              <span class="recent-card__distance">600m away</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom nav -->
+      <div class="bottom-nav">
+        <div class="nav-item active" id="navMap">
+          <div class="nav-item__icon">
+            <!-- Map pin with compass feel -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2C8.69 2 6 4.69 6 8c0 4.5 6 12 6 12s6-7.5 6-12c0-3.31-2.69-6-6-6z"/>
+              <circle cx="12" cy="8" r="2"/>
+            </svg>
+          </div>
+          <span class="nav-item__label">Map</span>
+        </div>
+        <div class="nav-item" id="navSpottings">
+          <div class="nav-item__icon">
+            <!-- Binoculars -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="7" cy="14" r="4"/>
+              <circle cx="17" cy="14" r="4"/>
+              <path d="M7 10V7a1 1 0 0 1 1-1h2m4 0h2a1 1 0 0 1 1 1v3"/>
+              <path d="M11 6h2"/>
+              <line x1="11" y1="14" x2="13" y2="14"/>
+            </svg>
+          </div>
+          <span class="nav-item__label">Spottings</span>
+        </div>
+        <div class="nav-item" id="logBtn">
+          <div class="nav-item__log">+</div>
+        </div>
+        <div class="nav-item">
+          <div class="nav-item__icon">
+            <!-- Community / people -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="7" r="3"/>
+              <path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6"/>
+              <circle cx="17" cy="8" r="2.5"/>
+              <path d="M22 20c0-2.8-2.2-5-5-5"/>
+            </svg>
+          </div>
+          <span class="nav-item__label">Community</span>
+        </div>
+        <div class="nav-item">
+          <div class="nav-item__icon">
+            <!-- Person silhouette -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="7" r="4"/>
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
+          </div>
+          <span class="nav-item__label">Profile</span>
+        </div>
+      </div>
+
+      <!-- ETA / navigation bar -->
+      <div class="nav-eta" id="navEta">
+        <div class="nav-eta__info">
+          <div class="nav-eta__time">12 min</div>
+          <div class="nav-eta__detail">800m · Beaver Lake Trail</div>
+        </div>
+        <div class="nav-eta__actions">
+          <button class="nav-eta__btn nav-eta__btn--start" id="etaStart">Start</button>
+          <button class="nav-eta__btn nav-eta__btn--cancel" id="etaCancel">Cancel</button>
+        </div>
+      </div>
+
+      <!-- Dim overlay -->
+      <div class="overlay" id="overlay"></div>
+
+      <!-- Sighting detail card -->
+      <div class="detail-card" id="detailCard">
+        <div class="detail-card__handle"></div>
+        <div class="detail-card__close" id="detailClose">✕</div>
+        <div class="detail-card__photo" style="font-size:0;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Bubo_virginianus_06.jpg" alt="Great Horned Owl" style="width:100%;height:100%;object-fit:cover;border-radius:18px;" />
+          <span class="detail-card__photo-label">📍 Beaver Lake Trail</span>
+        </div>
+        <div class="detail-card__body">
+          <div class="detail-card__header">
+            <span class="detail-card__species">Great Horned Owl</span>
+            <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;">
+              <span class="detail-card__fresh" style="background:#e8f5e9;color:#2d6a2e;">👥 12 spotted</span>
+              <span class="detail-card__fresh">Just now</span>
+            </div>
+          </div>
+          <div class="detail-card__location">Beaver Lake Trail, Stanley Park</div>
+          <div class="detail-card__stats">
+            <div class="stat">
+              <div class="stat__value">80m</div>
+              <div class="stat__label">Distance</div>
+            </div>
+            <div class="stat">
+              <div class="stat__value">2 min</div>
+              <div class="stat__label">Spotted</div>
+            </div>
+            <div class="stat">
+              <div class="stat__value">4.2 ★</div>
+              <div class="stat__label">Reliability</div>
+            </div>
+          </div>
+          <div class="detail-card__user">
+            <div class="detail-card__avatar">🌿</div>
+            <div>
+              <div class="detail-card__username">@naturelover_yvr</div>
+              <div class="detail-card__usernote">"Perched on a branch near the water, incredible!"</div>
+            </div>
+          </div>
+          <button class="detail-card__btn">Navigate Here</button>
+        </div>
+      </div>
+
+      <!-- Log sighting sheet -->
+      <div class="log-sheet" id="logSheet">
+        <div class="log-sheet__handle"></div>
+        <div class="log-sheet__title">Log a Sighting</div>
+        <div class="log-sheet__sub">What did you spot?</div>
+        <div class="log-sheet__species">
+          <div class="species-btn selected">
+            <span class="species-btn__emoji">🦉</span>
+            <span class="species-btn__name">Owl</span>
+          </div>
+          <div class="species-btn">
+            <span class="species-btn__emoji">🦩</span>
+            <span class="species-btn__name">Heron</span>
+          </div>
+          <div class="species-btn">
+            <span class="species-btn__emoji">🦅</span>
+            <span class="species-btn__name">Eagle</span>
+          </div>
+          <div class="species-btn">
+            <span class="species-btn__emoji">🐋</span>
+            <span class="species-btn__name">Whale</span>
+          </div>
+          <div class="species-btn">
+            <span class="species-btn__emoji">🦦</span>
+            <span class="species-btn__name">Otter</span>
+          </div>
+          <div class="species-btn">
+            <span class="species-btn__emoji">🐦</span>
+            <span class="species-btn__name">Other</span>
+          </div>
+        </div>
+        <!-- Auto-filled location + datetime -->
+        <div style="display:flex; gap:8px; margin-bottom:16px;">
+          <div style="flex:1; background:#f5f5f5; border-radius:12px; padding:10px 12px; display:flex; align-items:center; gap:8px; min-width:0;">
+            <span style="font-size:14px; flex-shrink:0;">📍</span>
+            <div style="min-width:0;">
+              <div style="font-size:9px; font-weight:600; color:#aaa; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:1px;">Location</div>
+              <div id="logLocation" style="font-size:11px; font-weight:500; color:#1a1a1a; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Stanley Park</div>
+            </div>
+          </div>
+          <div style="flex:1; background:#f5f5f5; border-radius:12px; padding:10px 12px; display:flex; align-items:center; gap:8px; min-width:0;">
+            <span style="font-size:14px; flex-shrink:0;">🕐</span>
+            <div style="min-width:0;">
+              <div style="font-size:9px; font-weight:600; color:#aaa; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:1px;">Date & Time</div>
+              <div id="logDatetime" style="font-size:11px; font-weight:500; color:#1a1a1a; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">—</div>
+            </div>
+          </div>
+        </div>
+        <label class="log-sheet__photo-btn" id="photoBtn" style="cursor:pointer;">
+          <span id="photoBtnIcon">📷</span>
+          <span id="photoBtnText">Add a photo</span>
+          <input type="file" id="photoInput" accept="image/*" style="display:none;" />
+        </label>
+        <img id="photoPreview" src="" alt="Preview" style="display:none; width:100%; border-radius:14px; object-fit:cover; max-height:100px; margin-bottom:16px;" />
+        <button class="log-sheet__submit" id="logSubmit">Drop Pin & Share</button>
+      </div>
+
+      <!-- My Spottings sheet -->
+      <div class="log-sheet" id="spottingsSheet">
+        <div class="log-sheet__handle"></div>
+        <div class="log-sheet__title">My Spottings</div>
+        <div class="log-sheet__sub">Stanley Park · May 2026</div>
+        <div class="spottings-list">
+          <div class="spotting-row">
+            <div class="spotting-row__icon">🦉</div>
+            <div class="spotting-row__info">
+              <div class="spotting-row__name">Great Horned Owl</div>
+              <div class="spotting-row__meta">Beaver Lake Trail · 2 min ago</div>
+            </div>
+            <span class="spotting-row__badge spotting-row__badge--new">New</span>
+          </div>
+          <div class="spotting-row">
+            <div class="spotting-row__icon">🦅</div>
+            <div class="spotting-row__info">
+              <div class="spotting-row__name">Bald Eagle</div>
+              <div class="spotting-row__meta">Prospect Point · Yesterday</div>
+            </div>
+          </div>
+          <div class="spotting-row">
+            <div class="spotting-row__icon">🦩</div>
+            <div class="spotting-row__info">
+              <div class="spotting-row__name">Great Blue Heron</div>
+              <div class="spotting-row__meta">Lost Lagoon · 3 days ago</div>
+            </div>
+          </div>
+          <div class="spotting-row">
+            <div class="spotting-row__icon">🦦</div>
+            <div class="spotting-row__info">
+              <div class="spotting-row__name">River Otter</div>
+              <div class="spotting-row__meta">Beaver Lake · Last week</div>
+            </div>
+          </div>
+          <div class="spotting-row">
+            <div class="spotting-row__icon">🦝</div>
+            <div class="spotting-row__info">
+              <div class="spotting-row__name">Raccoon</div>
+              <div class="spotting-row__meta">Prospect Point · Last week</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // ── Map drag ──
+    const mapEl = document.querySelector('.map');
+    const mapSvg = mapEl.querySelector('svg');
+    const pinLayer = document.getElementById('pinLayer');
+    let isDragging = false;
+    let startX = 0, startY = 0;
+    let translateX = 0, translateY = 60;
+    const DRAG_LIMIT = 180;
+
+    function applyTransform() {
+      mapSvg.style.transform = `rotate(35deg) scale(1.4) translate(${translateX}px, ${translateY}px)`;
+    }
+
+    mapEl.addEventListener('mousedown', (e) => {
+      if (e.target.closest('.recent-strip, .bottom-nav, .top-bar, .filters, .alert-banner')) return;
+      isDragging = true;
+      startX = e.clientX - translateX;
+      startY = e.clientY - translateY;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      translateX = Math.max(-DRAG_LIMIT, Math.min(DRAG_LIMIT, e.clientX - startX));
+      translateY = Math.max(-DRAG_LIMIT, Math.min(DRAG_LIMIT, e.clientY - startY));
+      applyTransform();
+    });
+
+    window.addEventListener('mouseup', () => { isDragging = false; });
+
+    // Touch support
+    mapEl.addEventListener('touchstart', (e) => {
+      if (e.target.closest('.recent-strip, .bottom-nav, .top-bar, .filters, .alert-banner')) return;
+      const t = e.touches[0];
+      isDragging = true;
+      startX = t.clientX - translateX;
+      startY = t.clientY - translateY;
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      const t = e.touches[0];
+      translateX = Math.max(-DRAG_LIMIT, Math.min(DRAG_LIMIT, t.clientX - startX));
+      translateY = Math.max(-DRAG_LIMIT, Math.min(DRAG_LIMIT, t.clientY - startY));
+      applyTransform();
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => { isDragging = false; });
+
+    const overlay = document.getElementById('overlay');
+    const detailCard = document.getElementById('detailCard');
+    const detailClose = document.getElementById('detailClose');
+    const logSheet = document.getElementById('logSheet');
+    const logBtn = document.getElementById('logBtn');
+    const logSubmit = document.getElementById('logSubmit');
+    const alertBanner = document.getElementById('alertBanner');
+    const alertClose = document.getElementById('alertClose');
+    const spottingsSheet = document.getElementById('spottingsSheet');
+    const navSpottings = document.getElementById('navSpottings');
+    const navMap = document.getElementById('navMap');
+    const navEta = document.getElementById('navEta');
+
+    function openDetail() {
+      detailCard.classList.add('open');
+      overlay.classList.add('visible');
+      logSheet.classList.remove('open');
+    }
+
+    function closeDetail() {
+      detailCard.classList.remove('open');
+      overlay.classList.remove('visible');
+      clearNav();
+    }
+
+    function openLog() {
+      logSheet.classList.add('open');
+      overlay.classList.add('visible');
+      detailCard.classList.remove('open');
+      // Fill date & time
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-CA', { month: 'short', day: 'numeric' });
+      const timeStr = now.toLocaleTimeString('en-CA', { hour: 'numeric', minute: '2-digit', hour12: true });
+      document.getElementById('logDatetime').textContent = dateStr + ' · ' + timeStr;
+      // Fill location based on currently selected species
+      const locMap = { 'Owl': 'Beaver Lake Trail', 'Heron': 'Lost Lagoon', 'Eagle': 'Prospect Point', 'Whale': 'Burrard Inlet', 'Otter': 'Beaver Lake', 'Other': 'Stanley Park' };
+      const selSpecies = document.querySelector('.species-btn.selected');
+      const curSpecies = selSpecies ? selSpecies.querySelector('.species-btn__name').textContent : 'Owl';
+      document.getElementById('logLocation').textContent = locMap[curSpecies] || 'Stanley Park';
+    }
+
+    function closeLog() {
+      logSheet.classList.remove('open');
+      overlay.classList.remove('visible');
+    }
+
+    function openSpottings() {
+      spottingsSheet.classList.add('open');
+      overlay.classList.add('visible');
+      detailCard.classList.remove('open');
+      logSheet.classList.remove('open');
+      navSpottings.classList.add('active');
+      navMap.classList.remove('active');
+    }
+
+    function closeSpottings() {
+      spottingsSheet.classList.remove('open');
+      overlay.classList.remove('visible');
+      navSpottings.classList.remove('active');
+      navMap.classList.add('active');
+    }
+
+    navSpottings.addEventListener('click', openSpottings);
+
+    // Pins open detail card
+    document.querySelectorAll('.svg-pin').forEach(pin => {
+      pin.addEventListener('click', (e) => { e.stopPropagation(); openDetail(); });
+    });
+
+    // Recent cards open detail card
+    document.querySelectorAll('.recent-card').forEach(card => {
+      card.addEventListener('click', openDetail);
+    });
+
+    detailClose.addEventListener('click', closeDetail);
+    overlay.addEventListener('click', () => { closeDetail(); closeLog(); closeSpottings(); });
+
+    // Log button
+    logBtn.addEventListener('click', openLog);
+
+    // Photo upload
+    const photoInput = document.getElementById('photoInput');
+    const photoPreview = document.getElementById('photoPreview');
+    const photoBtnIcon = document.getElementById('photoBtnIcon');
+    const photoBtnText = document.getElementById('photoBtnText');
+
+    document.getElementById('photoBtn').addEventListener('click', () => photoInput.click());
+
+    photoInput.addEventListener('change', () => {
+      const file = photoInput.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        photoPreview.src = e.target.result;
+        photoPreview.style.display = 'block';
+        photoBtnIcon.textContent = '✅';
+        photoBtnText.textContent = file.name.length > 22 ? file.name.slice(0, 22) + '…' : file.name;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Drop Pin & Share — adds a new pin for the selected species
+    logSubmit.addEventListener('click', () => {
+      const selectedBtn = document.querySelector('.species-btn.selected');
+      const emojiMap = { 'Owl': '🦉', 'Heron': '🦩', 'Eagle': '🦅', 'Whale': '🐋', 'Otter': '🦦', 'Other': '🐦' };
+      const nameMap  = { 'Owl': 'Great Horned Owl', 'Heron': 'Great Blue Heron', 'Eagle': 'Bald Eagle', 'Whale': 'Orca', 'Otter': 'River Otter', 'Other': 'Wildlife' };
+      const posMap   = { 'Owl': [260,280], 'Heron': [170,410], 'Eagle': [130,210], 'Whale': [340,520], 'Otter': [250,390], 'Other': [200,340] };
+
+      const species  = selectedBtn ? selectedBtn.querySelector('.species-btn__name').textContent : 'Heron';
+      const emoji    = emojiMap[species] || '📍';
+      const name     = nameMap[species] || species;
+      const [px, py] = posMap[species] || [200,350];
+
+      // Insert new SVG pin after modal closes
+      closeLog();
+
+      // Drop pin after modal finishes closing (transition is 0.45s)
+      setTimeout(() => {
+        const mapSvgEl = document.querySelector('.map svg');
+        const pinGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        pinGroup.setAttribute('class', 'svg-pin');
+        pinGroup.setAttribute('data-id', 'newPin_' + Date.now());
+        pinGroup.setAttribute('style', 'cursor:pointer;');
+        // Wrap in a second group that handles the rotate, so the translate animation doesn't clobber it
+        pinGroup.setAttribute('transform', `translate(${px},${py})`);
+        pinGroup.innerHTML = `
+          <animateTransform attributeName="transform" type="translate"
+            from="${px} ${py - 70}" to="${px} ${py}"
+            dur="0.4s" begin="0s" fill="freeze"
+            calcMode="spline" keySplines="0.34 1.56 0.64 1"/>
+          <g transform="rotate(-35)">
+            <animate attributeName="opacity" from="0" to="1" dur="0.15s" fill="freeze"/>
+            <rect x="-50" y="-52" width="130" height="38" rx="10" fill="#e8f5e9" filter="url(#pinShadow)"/>
+            <text x="-42" y="-28" font-family="Inter,sans-serif" font-size="15" dominant-baseline="middle">${emoji}</text>
+            <text x="-20" y="-38" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#1a4a1a" dominant-baseline="middle">${name}</text>
+            <text x="-20" y="-23" font-family="Inter,sans-serif" font-size="9" fill="#3d7a3d" dominant-baseline="middle">Just now</text>
+            <polygon points="-5,-14 0,-8 5,-14" fill="#e8f5e9"/>
+            <circle cx="0" cy="0" r="5" fill="#5aab5a"/>
+          </g>
+        `;
+        mapSvgEl.appendChild(pinGroup);
+        pinGroup.addEventListener('click', (e) => { e.stopPropagation(); openDetail(); });
+
+        // Toast appears on the map after pin drops
+        const toast = document.createElement('div');
+        toast.textContent = '📍 ' + name + ' spotted!';
+        toast.style.cssText = 'position:absolute;bottom:100px;left:50%;transform:translateX(-50%);background:#2d6a2e;color:#fff;font-size:12px;font-weight:600;padding:8px 18px;border-radius:999px;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.25);z-index:90;pointer-events:none;opacity:1;transition:opacity 0.5s;';
+        document.querySelector('.phone__screen').appendChild(toast);
+        setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 500); }, 2500);
+      }, 480);
+
+      // Reset photo state for next use
+      photoPreview.style.display = 'none';
+      photoPreview.src = '';
+      photoBtnIcon.textContent = '📷';
+      photoBtnText.textContent = 'Add a photo';
+      photoInput.value = '';
+    });
+
+    // Navigate Here — show route on map
+    const etaStart = document.getElementById('etaStart');
+    const etaCancel = document.getElementById('etaCancel');
+
+    function clearNav() {
+      const navRoute = document.getElementById('navRoute');
+      const routePath = document.getElementById('routePath');
+      navRoute.style.display = 'none';
+      routePath.classList.remove('animating');
+      routePath.style.strokeDashoffset = '900';
+      document.querySelectorAll('.svg-pin').forEach(p => p.classList.remove('selected'));
+      document.querySelectorAll('.pin-dot').forEach(d => d.style.display = 'none');
+      navEta.classList.remove('visible');
+      // show confirm state on alert banner
+      document.getElementById('alertDefault').style.display = 'none';
+      document.getElementById('alertConfirm').style.display = 'block';
+      alertBanner.classList.add('visible');
+    }
+
+    function rewireConfirmBtns() {
+      document.getElementById('confirmYes').addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.getElementById('alertConfirm').innerHTML = `
+          <div class="alert-confirm__title">Thanks for confirming! 🙌</div>
+          <div class="alert-confirm__sub">We've updated the sighting for other users nearby.</div>
+        `;
+        setTimeout(() => {
+          alertBanner.classList.remove('visible');
+          setTimeout(() => resetConfirm(), 500);
+        }, 1800);
+      });
+      document.getElementById('confirmNo').addEventListener('click', (e) => {
+        e.stopPropagation();
+        alertBanner.classList.remove('visible');
+        setTimeout(() => resetConfirm(), 500);
+      });
+    }
+
+    function resetConfirm() {
+      document.getElementById('alertDefault').style.display = 'flex';
+      document.getElementById('alertConfirm').style.display = 'none';
+      document.getElementById('alertConfirm').innerHTML = `
+        <div class="alert-confirm__title">Still there? 👀</div>
+        <div class="alert-confirm__sub">Help others know if the owl is still at Beaver Lake Trail.</div>
+        <div class="alert-confirm__btns">
+          <button class="alert-confirm__btn alert-confirm__btn--yes" id="confirmYes">✓ Still there</button>
+          <button class="alert-confirm__btn alert-confirm__btn--no" id="confirmNo">✗ Gone now</button>
+        </div>
+      `;
+      rewireConfirmBtns();
+    }
+
+    rewireConfirmBtns();
+
+    document.querySelector('.detail-card__btn').addEventListener('click', () => {
+      const navRoute = document.getElementById('navRoute');
+      const routePath = document.getElementById('routePath');
+      document.getElementById('detailCard').classList.remove('open');
+      overlay.classList.remove('visible');
+      document.querySelector('.svg-pin[data-id="pin1"]').classList.add('selected');
+      document.querySelector('.svg-pin[data-id="pin1"] .pin-dot').style.display = 'block';
+      navRoute.style.display = 'block';
+      routePath.classList.remove('animating');
+      void routePath.getBoundingClientRect();
+      routePath.classList.add('animating');
+      navEta.classList.add('visible');
+    });
+
+    etaCancel.addEventListener('click', clearNav);
+    etaStart.addEventListener('click', clearNav);
+    document.querySelectorAll('.species-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.species-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        // Update location to match species habitat
+        const locMap = {
+          'Owl':   'Beaver Lake Trail',
+          'Heron': 'Lost Lagoon',
+          'Eagle': 'Prospect Point',
+          'Whale': 'Burrard Inlet',
+          'Otter': 'Beaver Lake',
+          'Other': 'Stanley Park'
+        };
+        const species = btn.querySelector('.species-btn__name').textContent;
+        const locEl = document.getElementById('logLocation');
+        if (locEl) locEl.textContent = locMap[species] || 'Stanley Park';
+      });
+    });
+
+    // Alert banner — show after 1.5s, dismiss on close
+    setTimeout(() => alertBanner.classList.add('visible'), 3500);
+    alertClose.addEventListener('click', () => alertBanner.classList.remove('visible'));
+
+    // Alert banner also opens detail card
+    alertBanner.addEventListener('click', (e) => {
+      if (e.target !== alertClose) openDetail();
+    });
+  </script>
+</body>
+</html>

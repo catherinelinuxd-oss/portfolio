@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="About Catherine Lin — UX Designer & Product Thinker" />
+  <title>About — Catherine Lin</title>
+  <link rel="icon" type="image/svg+xml" href="images/favicon-lin.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Ma+Shan+Zheng&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Timeline — Polaroid string ── */
+    .timeline {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-8);
+      padding: var(--space-16) var(--space-4) var(--space-24);
+    }
+
+    /* The connecting line */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: calc(var(--space-16) + 30px);
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: repeating-linear-gradient(90deg, var(--clr-border) 0px, var(--clr-border) 8px, transparent 8px, transparent 12px);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+
+    .timeline__item {
+      flex-shrink: 0;
+      position: relative;
+      cursor: default;
+      padding-top: 40px;
+    }
+
+    /* Push pin — sits on the line */
+    .timeline__item::before {
+      content: '';
+      position: absolute;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 36px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 36'%3E%3Ccircle cx='10' cy='7' r='6' fill='%23c42010'/%3E%3Ccircle cx='10' cy='7' r='3' fill='%23a01a0c'/%3E%3Crect x='9.25' y='11' width='1.5' height='25' rx='0.75' fill='%238a8178'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      z-index: 2;
+    }
+
+    /* Year label — floated above the line */
+    .timeline__year {
+      display: block;
+      text-align: center;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--clr-text-muted);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .timeline__polaroid {
+      width: 100%;
+      background: #fff;
+      padding: 12px 12px 40px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.06);
+      border-radius: 2px;
+      transition: transform 360ms cubic-bezier(0.16,1,0.3,1),
+                  box-shadow 360ms cubic-bezier(0.16,1,0.3,1);
+      transform-origin: top center;
+      user-select: none;
+    }
+
+    .timeline__item:nth-child(1) .timeline__polaroid { transform: rotate(-4deg); }
+    .timeline__item:nth-child(2) .timeline__polaroid { transform: rotate(2.5deg); }
+    .timeline__item:nth-child(3) .timeline__polaroid { transform: rotate(-3deg); }
+    .timeline__item:nth-child(4) .timeline__polaroid { transform: rotate(1.5deg); }
+
+    .timeline__item:hover .timeline__polaroid {
+      transform: rotate(0deg) translateY(-12px) scale(1.04);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.16), 0 4px 12px rgba(0,0,0,0.08);
+      z-index: 10;
+    }
+
+    .timeline__photo {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      background: transparent; border: none; border-bottom: 1px solid var(--clr-border); margin-bottom: var(--space-4);
+    }
+
+    .timeline__photo-placeholder {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: linear-gradient(135deg, var(--clr-surface) 0%, var(--clr-border) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .timeline__photo-placeholder svg {
+      width: 48px;
+      height: 48px;
+      opacity: 0.35;
+    }
+
+    .timeline__caption {
+      padding-top: 10px;
+      text-align: center;
+    }
+
+    .timeline__caption-role {
+      display: block;
+      font-size: var(--text-xs);
+      font-weight: 500;
+      color: var(--clr-text);
+      margin-bottom: 2px;
+    }
+
+    .timeline__caption-company {
+      display: block;
+      font-size: var(--text-xs);
+      font-weight: 300;
+      color: var(--clr-text-muted);
+    }
+
+    .timeline__caption-date {
+      display: block;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--clr-text-muted);
+      margin-top: 4px;
+    }
+
+    /* Expanded detail panel below the string */
+    .timeline__detail {
+      position: absolute;
+      top: calc(100% + var(--space-6));
+      left: 50%;
+      transform: translateX(-50%);
+      width: 280px;
+      background: var(--clr-bg);
+      border: 1px solid var(--clr-border);
+      border-radius: 12px;
+      padding: var(--space-4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--t-base) var(--ease), transform var(--t-base) var(--ease);
+      transform: translateX(-50%) translateY(8px);
+      z-index: 20;
+    }
+
+    .timeline__item:hover .timeline__detail {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .timeline__detail p {
+      font-size: var(--text-xs);
+      font-weight: 300;
+      color: var(--clr-text-muted);
+      line-height: 1.7;
+      margin-bottom: 0;
+    }
+
+    .timeline__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      list-style: none;
+    }
+
+    .timeline__tags li {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--clr-text-muted);
+      padding: 2px 8px;
+      border: 1px solid var(--clr-border);
+      border-radius: 999px;
+    }
+
+    /* Animated panel height */
+    .timeline__panel[data-animating] {
+      display: block !important;
+      overflow: hidden;
+    }
+
+    /* ── Koi divider ── */
+    .koi-divider {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin: 0 auto;
+      max-width: 900px;
+      padding-inline: var(--space-6);
+      opacity: 0.4;
+    }
+
+    .koi-divider::before,
+    .koi-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--clr-border);
+    }
+
+    /* ── Narrow centered layout for about page ── */
+    .about-container {
+      width: 100%;
+      max-width: 900px;
+      margin-inline: auto;
+      padding-inline: var(--space-6);
+    }
+    .values {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-12);
+    }
+
+    .value {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .value__icon {
+      width: 32px;
+      height: 32px;
+      margin-bottom: var(--space-2);
+    }
+
+    .value__icon svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    /* Value 01 — typing dots bounce, then pause */
+    .typing-dot-1 { animation: typingBounce 3s ease-in-out infinite; }
+    .typing-dot-2 { animation: typingBounce 3s ease-in-out 0.15s infinite; }
+    .typing-dot-3 { animation: typingBounce 3s ease-in-out 0.3s infinite; }
+
+    @keyframes typingBounce {
+      0%, 55%, 100% { transform: translateY(0);    opacity: 1; }
+      10%            { transform: translateY(-3px); opacity: 1; }
+      20%            { transform: translateY(0);    opacity: 1; }
+      /* pause 55%–100% = stopped typing */
+      60%, 95%       { opacity: 0.25; }
+    }
+
+    /* Value 02 — cursor drifts */
+    .value-shape-2 {
+      animation: cursorDrift 3.5s ease-in-out infinite;
+      transform-origin: 8px 6px;
+    }
+
+    @keyframes cursorDrift {
+      0%, 100% { transform: translate(0, 0); }
+      50%       { transform: translate(5px, 3px); }
+    }
+
+    /* Value 03 — venn circles breathe apart and together */
+    .value-shape-3a {
+      animation: vennLeft 5s ease-in-out infinite;
+      transform-origin: 12px 16px;
+    }
+
+    .value-shape-3b {
+      animation: vennRight 5s ease-in-out infinite;
+      transform-origin: 20px 16px;
+    }
+
+    @keyframes vennLeft {
+      0%, 100% { transform: translateX(0); }
+      50%       { transform: translateX(-6px); }
+    }
+
+    @keyframes vennRight {
+      0%, 100% { transform: translateX(0); }
+      50%       { transform: translateX(6px); }
+    }
+
+    .value__number {
+      font-size: var(--text-xs);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--clr-border);
+    }
+
+    .value__title {
+      font-size: var(--text-xl);
+      font-weight: 400;
+      color: var(--clr-text);
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+    }
+
+    .value__desc {
+      font-size: var(--text-sm);
+      font-weight: 300;
+      color: var(--clr-text-muted);
+      line-height: 1.75;
+    }
+
+    @media (max-width: 768px) {
+      .values { grid-template-columns: 1fr; gap: var(--space-8); }
+      .section__header[style*="grid"] { grid-template-columns: 1fr !important; }
+    }
+    .container--split {
+      grid-template-columns: 200px 1fr 1fr;
+    }
+
+    .about__photo-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .about__photo-wrap {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--clr-border);
+      background: transparent; border: none; border-bottom: 1px solid var(--clr-border); margin-bottom: var(--space-4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-2);
+    }
+
+    .about__photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .about__photo-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about__photo-placeholder svg {
+      width: 80px;
+      height: 80px;
+    }
+
+    .about__photo-name {
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--clr-text);
+      text-align: center;
+    }
+
+    .about__photo-title {
+      font-size: var(--text-xs);
+      font-weight: 300;
+      color: var(--clr-text-muted);
+      text-align: center;
+    }
+
+
+      .container--split {
+        grid-template-columns: 1fr !important;
+      }
+      .about__photo-col {
+        flex-direction: row;
+        align-items: center;
+        gap: var(--space-4);
+      }
+      .about__photo-wrap {
+        flex-shrink: 0;
+        width: 80px;
+        height: 80px;
+        margin-bottom: 0;
+      }
+      .about__photo-name, .about__photo-title {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" aria-label="Primary">
+    <a href="index.html" class="nav__logo" aria-label="CL — Home" style="font-family: 'Ma Shan Zheng', serif; font-size: 1.75rem; text-decoration: none; color: var(--clr-text);">林</a>
+    <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+    <ul class="nav__links" role="list">
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="about.html" aria-current="page">About</a></li>
+      <li><a href="https://drive.google.com/file/d/1N8Trjoo7WWR7c0rMHwUJrrGUKLO5-BjP/view?usp=sharing" target="_blank" rel="noopener">Resume</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- ── 1. Who I Am ── -->
+    <section style="padding-top: calc(var(--space-24) + 80px); padding-bottom: var(--space-24);">
+      <div class="about-container">
+        <div style="display: grid; grid-template-columns: 1fr 280px; gap: var(--space-24); align-items: center;">
+          <header class="section__header" style="margin-bottom: 0;">
+            <span class="label">About Me</span>
+            <h2 style="margin-top: var(--space-3); font-family: var(--font); font-weight: 300;">Hi, I'm Catherine.</h2>
+            <p class="section__desc" style="margin-top: var(--space-6);">I came to design from a business background, and I think that makes me a different kind of designer. Where others lead with aesthetics, I lead with strategy. I'm drawn to the intersection of psychology, data, and simplicity: taking what's complex and making it feel effortless. With experience across end-to-end product design and AI workflows, I bring a bigger-picture perspective to every problem I work on.</p>
+          </header>
+          <div class="about-polaroid" style="position: relative; overflow: visible;">
+            <div class="about-polaroid__tags" style="position: absolute; top: -18px; left: 0; right: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; opacity: 0; transform: translateY(6px); transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none; z-index: 10;">
+              <span style="font-size: var(--text-xs); font-weight: 500; color: var(--clr-text-muted); padding: 4px 12px; border: 1px solid var(--clr-border); border-radius: 999px; background: var(--clr-bg);">🧠 INFJ</span>
+              <span style="font-size: var(--text-xs); font-weight: 500; color: var(--clr-text-muted); padding: 4px 12px; border: 1px solid var(--clr-border); border-radius: 999px; background: var(--clr-bg);">🐱 Cat Lover</span>
+              <span style="font-size: var(--text-xs); font-weight: 500; color: var(--clr-text-muted); padding: 4px 12px; border: 1px solid var(--clr-border); border-radius: 999px; background: var(--clr-bg);">📱 Mobile UI</span>
+              <span style="font-size: var(--text-xs); font-weight: 500; color: var(--clr-text-muted); padding: 4px 12px; border: 1px solid var(--clr-border); border-radius: 999px; background: var(--clr-bg);">🚀 Entrepreneurship</span>
+              <span style="font-size: var(--text-xs); font-weight: 500; color: var(--clr-text-muted); padding: 4px 12px; border: 1px solid var(--clr-border); border-radius: 999px; background: var(--clr-bg);">🐟 Pisces</span>
+            </div>
+            <div style="background: #fff; padding: 12px 12px 48px; box-shadow: 0 4px 16px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.06); transform: rotate(1.5deg); transition: transform 360ms cubic-bezier(0.16,1,0.3,1), box-shadow 360ms cubic-bezier(0.16,1,0.3,1);" class="about-polaroid__frame">
+              <img src="images/About Me Pic.jpg" alt="Catherine Lin" style="width: 100%; aspect-ratio: 2 / 3; object-fit: cover; object-position: center top; display: block;">
+              <p style="font-size: var(--text-sm); color: var(--clr-text-muted); font-weight: 500; margin-top: var(--space-3); text-align: center;">Catherine Lin <span style="font-family: 'Ma Shan Zheng', serif; font-size: var(--text-lg); color: var(--clr-text); margin-left: var(--space-2);">林美幸</span></p>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 3. My Story ── -->
+    <section class="section" style="padding-bottom: var(--space-24);">
+      <div class="about-container">
+        <span class="label">My Story</span>
+        <h3 style="font-size: clamp(var(--text-xl), 2.5vw, var(--text-2xl)); font-weight: 300; letter-spacing: -0.01em; margin-top: var(--space-3); margin-bottom: var(--space-4);">Pivoting from Business to UX and Beyond</h3>
+        <p class="section__desc" style="margin-bottom: var(--space-10);">I started my career in Marketing, but I kept finding myself more interested in improving the product than promoting it. UX gave me that: the ability to identify real problems and design solutions that actually make things simpler and better. Moving to Vancouver was part of that same drive to keep pushing forward. Three years later, I'm still asking how things can be better.</p>
+      </div>
+      <div class="container">
+        <div class="timeline">
+
+          <div class="timeline__item">
+            <span class="timeline__year">2022</span>
+            <div class="timeline__polaroid">
+              <img src="images/Polariod Pics/Polariod 1.png" alt="" class="timeline__photo">
+              <div class="timeline__caption">
+                <span class="timeline__caption-role">Graduated Bachelors of Commerce</span>
+                <span class="timeline__caption-company">McMaster, Hamilton Ontario</span>
+                <span class="timeline__caption-date">2022</span>
+              </div>
+            </div>
+            <div class="timeline__detail">
+              <p>With a passion for innovation and entrepreneurship, I completed my B.Comm at McMaster with an internship at Volvo Cars Canada, leading a team of 40+ students in a national business competition along the way.</p>
+            </div>
+          </div>
+
+          <div class="timeline__item">
+            <span class="timeline__year">2023</span>
+            <div class="timeline__polaroid">
+              <img src="images/Polariod Pics/Polaroid 2.png" alt="" class="timeline__photo">
+              <div class="timeline__caption">
+                <span class="timeline__caption-role">Moved to Vancouver</span>
+                <span class="timeline__caption-company">Bye Toronto!</span>
+                <span class="timeline__caption-date">2023</span>
+              </div>
+            </div>
+            <div class="timeline__detail">
+              <p>I love to challenge myself to get out of my comfort zone. After graduation, I moved to Vancouver to try out life on the West Coast! Three years later, I am still in awe of the beautiful water and mountains every time I go outside.</p>
+            </div>
+          </div>
+
+          <div class="timeline__item">
+            <span class="timeline__year">2025</span>
+            <div class="timeline__polaroid">
+              <img src="images/Polariod Pics/Polariod 3.png" alt="" class="timeline__photo">
+              <div class="timeline__caption">
+                <span class="timeline__caption-role">UX Design @ SAP</span>
+                <span class="timeline__caption-company">Me and my fellow designers</span>
+                <span class="timeline__caption-date">2025</span>
+              </div>
+            </div>
+            <div class="timeline__detail">
+              <p>After studying UX design at BCIT, I had the amazing opportunity to work at SAP on the Data & Analytics team. I learned so much about product design and worked with incredible collaborators to create intuitive ways to visualize data on mobile.</p>
+            </div>
+          </div>
+
+          <div class="timeline__item">
+            <span class="timeline__year">2026</span>
+            <div class="timeline__polaroid">
+              <img src="images/Polariod Pics/Polariod 4.png" alt="" class="timeline__photo">
+              <div class="timeline__caption">
+                <span class="timeline__caption-role">Travel, Travel, Travel!</span>
+                <span class="timeline__caption-company">This year I went to Japan and Taiwan</span>
+                <span class="timeline__caption-date">2026</span>
+              </div>
+            </div>
+            <div class="timeline__detail">
+              <p>Travel has a special place in my heart. Most recently, I traveled to Japan and Taiwan. What I love the most about traveling is feeling transported to an entirely different world: new food, cultures, and ways of life.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- ── 2. Where I've Worked ── -->
+    <section class="section" style="padding-bottom: var(--space-24);">
+      <div class="about-container">
+        <span class="label">Experience</span>
+        <h3 style="font-size: clamp(var(--text-xl), 2.5vw, var(--text-2xl)); font-weight: 300; letter-spacing: -0.01em; margin-top: var(--space-3); margin-bottom: var(--space-8);">Where I've Worked</h3>
+        <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+
+          <!-- SAP -->
+          <div style="display: grid; grid-template-columns: 56px 1fr; gap: var(--space-6); align-items: center; padding: var(--space-1) var(--space-8) 0; background: transparent; border: none; border-bottom: 1px solid var(--clr-border); margin-bottom: var(--space-4); padding-bottom: var(--space-6); border-radius: 0;">
+            <!-- Replace with logo: <img src="images/logo-sap.png" style="width:56px;height:56px;border-radius:12px;object-fit:contain;"> -->
+            <img src="images/SAP_Logo.png" style="width:56px;height:56px;border-radius:12px;object-fit:contain;background:#fff;padding:4px;" alt="SAP">
+            <div>
+              <p style="font-size: var(--text-sm); font-weight: 600; color: var(--clr-text); margin-bottom: 2px;">UX Designer — SAP</p>
+              <p style="font-size: var(--text-xs); font-weight: 400; color: var(--clr-text-muted); margin-bottom: 4px;">May 2025 – May 2026</p>
+              <p style="font-size: var(--text-sm); font-weight: 300; color: var(--clr-text-muted);">Designed mobile interactions for an iOS data analytics app and components for a cross-product design system.</p>
+            </div>
+          </div>
+
+          <!-- Raisonance -->
+          <div style="display: grid; grid-template-columns: 56px 1fr; gap: var(--space-6); align-items: center; padding: var(--space-1) var(--space-8) 0; background: transparent; border: none; border-bottom: 1px solid var(--clr-border); margin-bottom: var(--space-4); padding-bottom: var(--space-6); border-radius: 0;">
+            <!-- Replace with logo: <img src="images/logo-raisonance.png" style="width:56px;height:56px;border-radius:12px;object-fit:contain;"> -->
+            <img src="images/raisonance_group_logo.jpeg" style="width:56px;height:56px;border-radius:12px;object-fit:contain;background:#fff;padding:4px;" alt="Raisonance">
+            <div>
+              <p style="font-size: var(--text-sm); font-weight: 600; color: var(--clr-text); margin-bottom: 2px;">UX Designer — Raisonance</p>
+              <p style="font-size: var(--text-xs); font-weight: 400; color: var(--clr-text-muted); margin-bottom: 4px;">June 2023 – April 2025</p>
+              <p style="font-size: var(--text-sm); font-weight: 300; color: var(--clr-text-muted);">Sole UX designer leading end-to-end product design for a healthcare mobile app.</p>
+            </div>
+          </div>
+
+          <!-- Volvo -->
+          <div style="display: grid; grid-template-columns: 56px 1fr; gap: var(--space-6); align-items: center; padding: var(--space-1) var(--space-8) 0; background: transparent; border: none; border-bottom: 1px solid var(--clr-border); margin-bottom: var(--space-4); padding-bottom: var(--space-6); border-radius: 0;">
+            <!-- Replace with logo: <img src="images/logo-volvo.png" style="width:56px;height:56px;border-radius:12px;object-fit:contain;"> -->
+            <img src="images/volvo_logo.png" style="width:56px;height:56px;border-radius:12px;object-fit:contain;background:#fff;padding:4px;" alt="Volvo Cars Canada">
+            <div>
+              <p style="font-size: var(--text-sm); font-weight: 600; color: var(--clr-text); margin-bottom: 2px;">Digital Experience Designer — Volvo Cars Canada</p>
+              <p style="font-size: var(--text-xs); font-weight: 400; color: var(--clr-text-muted); margin-bottom: 4px;">July 2020 – May 2021</p>
+              <p style="font-size: var(--text-sm); font-weight: 300; color: var(--clr-text-muted);">Managed digital campaign assets and standardized visual identity across 36+ retailers.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 5. Design Philosophy ── -->
+    <section class="section" style="padding-bottom: var(--space-24);">
+      <div class="about-container">
+        <span class="label">My Design Philosophy</span>
+        <div style="border-left: 2px solid var(--clr-border); padding-left: var(--space-8); margin-top: var(--space-3);">
+          <h2 style="font-size: clamp(var(--text-3xl), 4vw, var(--text-4xl)); font-family: var(--font); font-weight: 300; letter-spacing: -0.03em; max-width: 700px;">"A great user experience should feel like a zen garden — <span style="background: linear-gradient(95deg, #c42010 0%, #e8823a 50%, #c42010 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">calm, intentional, and effortless."</span> <img src="images/koi_fish_colour.webp" alt="" aria-hidden="true" style="display: inline-block; height: 1.1em; width: auto; vertical-align: middle;"></h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 6. Let's Connect ── -->
+    <section class="section" style="padding-bottom: calc(var(--space-24) * 2);">
+      <div class="about-container">
+        <span class="label">Contact</span>
+        <h3 style="font-size: clamp(var(--text-xl), 2.5vw, var(--text-2xl)); font-weight: 300; letter-spacing: -0.01em; margin-top: var(--space-3); margin-bottom: var(--space-4);">Let's Work Together</h3>
+        <p class="section__desc" style="margin-bottom: var(--space-8);">I'm currently open to new opportunities. If you're looking for a designer who brings both strategic thinking and craft to the table, I'd love to connect.</p>
+        <div style="display: flex; gap: var(--space-4); flex-wrap: wrap;">
+          <a href="mailto:catherinelinuxd@gmail.com" style="display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); font-weight: 500; color: var(--clr-text); text-decoration: none; padding: 11px var(--space-6); border: 1px solid var(--clr-border); border-radius: 999px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            catherinelinuxd@gmail.com
+          </a>
+          <a href="https://www.linkedin.com/in/catherine-lin12/" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); font-weight: 500; color: var(--clr-text); text-decoration: none; padding: 11px var(--space-6); border: 1px solid var(--clr-border); border-radius: 999px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 0 0-4 0"/></svg>
+            LinkedIn
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p style="font-size: var(--text-sm); font-weight: 300; color: var(--clr-text-muted);">Take a breath. Stay a while.</p>
+      <p>&copy; 2026 Catherine Lin</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    const polaroid = document.querySelector('.about-polaroid');
+    const tags = polaroid && polaroid.querySelector('.about-polaroid__tags');
+    const frame = polaroid && polaroid.querySelector('.about-polaroid__frame');
+    if (polaroid && tags) {
+      polaroid.addEventListener('mouseenter', () => {
+        tags.style.opacity = '1';
+        tags.style.transform = 'translateY(0)';
+        if (frame) {
+          frame.style.transform = 'rotate(0deg) translateY(-12px) scale(1.04)';
+          frame.style.boxShadow = '0 16px 40px rgba(0,0,0,0.16), 0 4px 12px rgba(0,0,0,0.08)';
+        }
+      });
+      polaroid.addEventListener('mouseleave', () => {
+        tags.style.opacity = '0';
+        tags.style.transform = 'translateY(6px)';
+        if (frame) {
+          frame.style.transform = 'rotate(1.5deg)';
+          frame.style.boxShadow = '0 4px 16px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.06)';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
