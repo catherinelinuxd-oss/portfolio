@@ -81,7 +81,13 @@ button { cursor: pointer; background: none; border: none; font: inherit; }
   width: 100%;
   max-width: var(--container-max);
   margin-inline: auto;
-  padding-inline: var(--space-3);
+  padding-inline: var(--space-6);
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding-inline: var(--space-4);
+  }
 }
 
 .container--narrow { max-width: var(--container-narrow); }
