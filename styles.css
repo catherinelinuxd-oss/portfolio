@@ -1084,6 +1084,13 @@ mark.highlight {
   .hero__cursor { display: none !important; }
   .hero { cursor: auto; }
 }
+
+@media (max-width: 640px) {
+  .hero {
+    padding-top: calc(var(--space-12) + 56px);
+    justify-content: flex-start;
+  }
+}
 @media print {
   .nav, .hero__scroll-hint { display: none; }
   body { font-size: 12pt; }
