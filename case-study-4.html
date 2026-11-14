@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Case Study - Wilds - Catherine Lin</title>
-  <link rel="icon" type="image/svg+xml" href="images/favicon-lin.svg" />
+  <title>Interactive Wildlife Spotting App — Catherine Lin</title>
+  <link rel="icon" type="image/png" href="images/flower-mark.png" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -295,20 +295,43 @@
 
     .cs-nav a:hover { color: var(--clr-accent); }
   </style>
+  <link rel="stylesheet" href="case-study-refresh.css" />
+  <link rel="stylesheet" href="flower-navigation.css" />
+  <script src="flower-navigation.js" defer></script>
 </head>
-<body>
+<body class="case-study-page wilds-case">
 
-  <nav class="nav" aria-label="Primary">
-    <a href="index.html" class="nav__logo" aria-label="CL - Home" style="font-family: 'Ma Shan Zheng', serif; font-size: 1.75rem; text-decoration: none; color: var(--clr-text);">林</a>
+  <header class="about-header">
+  <div class="flower-nav">
+    <button class="flower-nav__button" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="flower-navigation">
+      <img src="images/flower-mark.png" alt="" width="1080" height="1080" />
+    </button>
+    <div class="flower-nav__reveal">
+  <nav class="nav" id="flower-navigation" aria-label="Primary">
     <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span>
     </button>
     <ul class="nav__links" role="list">
-      <li><a href="index.html#work" aria-current="page">Work</a></li>
+      <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="https://drive.google.com/file/d/1N8Trjoo7WWR7c0rMHwUJrrGUKLO5-BjP/view?usp=sharing" target="_blank" rel="noopener">Resume</a></li>
+      <li><a href="https://drive.google.com/file/d/17YFvfkV_eQCQlajJmylnQy5ZY00-CSeu/view?usp=sharing" target="_blank" rel="noopener">Resume</a></li>
     </ul>
   </nav>
+    </div>
+  </div>
+
+      <div class="footer__links home__contact" role="navigation" aria-label="Contact">
+        <a class="footer__link" href="mailto:catherinelinuxd@gmail.com" aria-label="Email">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span>Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/catherine-lin12/" target="_blank" rel="noopener" class="footer__link" aria-label="LinkedIn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 0 0-4 0"/></svg>
+          LinkedIn
+        </a>
+      </div>
+
+  </header>
 
   <main>
 
@@ -321,7 +344,7 @@
           <span class="tag">Concept</span>
           <span class="tag">Vibe Coded</span>
         </div>
-        <h1>Real-Time Wildlife Spotting at Stanley Park</h1>
+        <h1>Interactive Wildlife Spotting App</h1>
         <p class="lead">
           A mobile app concept that helps park visitors discover and share live wildlife sightings - turning a solo walk into a shared, community-driven experience.
         </p>
@@ -354,11 +377,11 @@
         <!-- Problem -->
         <span class="cs-eyebrow">Problem</span>
         <h2>As a newcomer to Vancouver, I wanted to see Stanley Park's wildlife but was never there at the right time</h2>
-        <p>After moving to Vancouver, I kept seeing people post incredible photos of Great Blue Herons, Great Horned Owls, and even Orca sightings right in the city. Every time I visited Stanley Park hoping to see something, I'd leave empty handed. I also noticed just how many people in Vancouver are passionate about birdwatching and wildlife spotting. It made me wonder why there wasn't an app that could tell you where the animals actually were right now, so that you could show up at the right place at the right time.</p>
+        <p>When I moved to Vancouver, I loved exploring Stanley Park and hoped to spot the wildlife it was known for. But I’d often head home without seeing much, only to find posts about whales, great blue herons, or eagles I’d just missed. What if there were a way to discover nearby wildlife sightings as they happened, rather than hours later?</p>
         <!-- Research -->
         <span class="cs-eyebrow">Research</span>
         <h2>Competitive Analysis</h2>
-        <p>I conducted a competitive audit to understand what already existed and where the gaps were, looking both within the nature app category and outside it for inspiration.</p>
+        <p>I conducted a competitive audit to understand what wildlife spotting tools already exist and where there were gaps in the user experience. I also looked for parallel examples in other industries.</p>
 
         <h3>Existing Apps for Expert Bird Watchers</h3>
         <p>eBird is one of the most popular apps among experienced birders, allowing users to log bird sightings and contribute data used for conservation and population research. The platform is primarily focused on personal checklist tracking and self-recorded sightings, where users document wildlife they discover on their own.</p>
@@ -436,8 +459,8 @@
 
         <!-- Next / prev project navigation -->
         <nav class="cs-nav" aria-label="Project navigation">
-          <a href="case-study-2.html">← Previous project</a>
-          <a href="case-study-3.html">Next project →</a>
+          <a href="case-study-3.html?v=project-order-2">← Previous: Healthcare Purchasing</a>
+          <a href="case-study-2.html?v=project-order-2">Next: SAP →</a>
         </nav>
 
       </div>
@@ -447,7 +470,6 @@
 
   <footer class="footer">
     <div class="container footer__inner">
-      <p style="font-size: var(--text-sm); font-weight: 300; color: var(--clr-text-muted);">Take a breath. Stay a while.</p>
       <p>&copy; 2026 Catherine Lin</p>
     </div>
   </footer>

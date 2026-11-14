@@ -5,66 +5,80 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="UX Designer portfolio — crafting thoughtful, human-centred digital experiences." />
   <title>Catherine Lin — UX Designer</title>
-  <link rel="icon" type="image/svg+xml" href="images/favicon-lin.svg" />
+  <link rel="icon" type="image/png" href="images/flower-mark.png" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="home.css?v=mobile-header-4" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,300&family=Ma+Shan+Zheng&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
 </head>
-<body>
+<body class="home">
 
   <nav class="nav" aria-label="Primary">
-    <a href="#" class="nav__logo" aria-label="CL — Home" style="font-family: 'Ma Shan Zheng', serif; font-size: 1.75rem; text-decoration: none; color: var(--clr-text);">林</a>
     <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span>
     </button>
     <ul class="nav__links" role="list">
-      <li><a href="#work" aria-current="page">Work</a></li>
+      <li><a href="#home" aria-current="page">Home</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="https://drive.google.com/file/d/1N8Trjoo7WWR7c0rMHwUJrrGUKLO5-BjP/view?usp=sharing" target="_blank" rel="noopener">Resume</a></li>
+      <li><a href="https://drive.google.com/file/d/17YFvfkV_eQCQlajJmylnQy5ZY00-CSeu/view?usp=sharing" target="_blank" rel="noopener">Resume</a></li>
     </ul>
   </nav>
+
+      <div class="footer__links home__contact" role="navigation" aria-label="Contact">
+        <a class="footer__link" href="mailto:catherinelinuxd@gmail.com" aria-label="Email">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span>Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/catherine-lin12/" target="_blank" rel="noopener" class="footer__link" aria-label="LinkedIn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 0 0-4 0"/></svg>
+          <span>LinkedIn</span>
+        </a>
+      </div>
 
   <main>
 
     <section class="hero" id="home">
-      <canvas class="koi-canvas" aria-hidden="true"></canvas>
-
-
-      <!-- Vertical name -->
-      <div class="hero__cursor" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M6 2L6 15L9.5 12L11.5 17L13.5 16L11.5 11L15.5 11L6 2Z" fill="#111" stroke="#111" stroke-width="0.5" stroke-linejoin="round"/>
-        </svg>
-        <span class="hero__cursor-tag">click me</span>
-      </div>
       <!-- Name + tagline -->
       <div class="hero__bottom">
         <div class="container">
           <div class="hero__tagline-wrap">
+            <div class="hero__logo" aria-hidden="true">
+              <img src="images/flower-mark.png" alt="" width="1080" height="1080" />
+            </div>
             <p class="hero__name">Catherine Lin</p>
             <h1 class="hero__headline">
-              Product Designer<br><span class="hero__changing-word">turning strategy into clarity.</span>
+              Product Designer<br><span class="hero__tagline">turning complexity into clarity.</span>
             </h1>
-            <p class="hero__sub">Specializing in 0→1 user experiences for high-growth products.<br>Based in Vancouver.</p>
+            <p class="hero__sub">Designing intuitive experiences across healthcare, B2B SaaS &amp; beyond.<span class="hero__location">Based in Vancouver</span></p>
           </div>
         </div>
       </div>
-      <div class="hero__scroll-hint" aria-hidden="true">
-        <div class="hero__scroll-line"></div>
-      </div>
     </section>
 
-    <section class="section" id="work">
+    <section class="section" id="work" aria-label="Selected work">
       <div class="container">
-        <header class="section__header">
-          <span class="label">Selected work</span>
-          <h2>Case Studies</h2>
-        </header>
         <div class="projects">
 
           <article class="project">
-            <a href="case-study-1.html" class="project__link" aria-label="View AI Cough App case study">
+            <a href="case-study-2.html?v=project-order-2" class="project__link" aria-label="View Simplifying Data Visualizations at SAP case study">
+              <div class="project__image-wrap">
+                <video class="project__tile-video" src="images/Case Study 2 Tile Video.mov" autoplay loop muted playsinline aria-hidden="true"></video>
+              </div>
+              <div class="project__meta">
+                <div class="project__tags">
+                  <span class="tag">B2B SaaS</span>
+                  <span class="tag">Mobile + Web</span>
+                  <span class="tag">Data Analytics</span>
+                </div>
+                <h3 class="project__title">Simplifying Data Visualizations at SAP</h3>
+                <p class="project__desc">Designing intuitive analytics experiences across mobile, chart selection, and design systems.</p>
+              </div>
+            </a>
+          </article>
+
+          <article class="project">
+            <a href="case-study-1.html?v=project-order-2" class="project__link" aria-label="View AI Cough Analysis App Redesign case study">
               <div class="project__image-wrap">
                 <video class="project__tile-video" id="myadvocateVideo" src="images/MyAdvocate Case Study Tile.mov" autoplay loop muted playsinline aria-hidden="true"></video>
               </div>
@@ -74,48 +88,14 @@
                   <span class="tag">Healthcare</span>
                   <span class="tag">Startup</span>
                 </div>
-                <h3 class="project__title">Making AI Cough Analysis Human-Centred</h3>
+                <h3 class="project__title">AI Cough Analysis App Redesign</h3>
                 <p class="project__desc">Redesigned an app that turns the sound of a cough into a glimpse into your respiratory health, improving usability by 40% across the entire experience.</p>
               </div>
             </a>
           </article>
 
           <article class="project">
-            <a href="case-study-2.html" class="project__link" aria-label="View Design System Foundation case study">
-              <div class="project__image-wrap">
-                <video class="project__tile-video" src="images/Case Study 2 Tile Video.mov" autoplay loop muted playsinline aria-hidden="true"></video>
-              </div>
-              <div class="project__meta">
-                <div class="project__tags">
-                  <span class="tag">Mobile</span>
-                  <span class="tag">SaaS</span>
-                  <span class="tag">Data Visualization</span>
-                </div>
-                <h3 class="project__title">Designing Intuitive Chart Visualizations at SAP</h3>
-                <p class="project__desc">Designed mobile guidelines for chart interactions and layouts for 10+ chart types for an intuitive user experience.</p>
-              </div>
-            </a>
-          </article>
-
-          <article class="project">
-            <a href="case-study-4.html" class="project__link" aria-label="View Wilds case study">
-              <div class="project__image-wrap wilds-image-wrap">
-                <video class="project__tile-video wilds-tile-video" src="images/wilds prototype short.mov" autoplay loop muted playsinline aria-hidden="true"></video>
-              </div>
-              <div class="project__meta">
-                <div class="project__tags">
-                  <span class="tag">Mobile</span>
-                  <span class="tag">Concept</span>
-                  <span class="tag">Vibe Coded</span>
-                </div>
-                <h3 class="project__title">Real-Time Wildlife Spotting at Stanley Park</h3>
-                <p class="project__desc">Designed a mobile app concept that lets visitors discover, navigate to, and share live wildlife sightings at Stanley Park.</p>
-              </div>
-            </a>
-          </article>
-
-          <article class="project">
-            <a href="case-study-3.html" class="project__link" aria-label="View Onboarding Redesign case study">
+            <a href="case-study-3.html?v=project-order-2" class="project__link" aria-label="View Streamlining the Purchasing Flow case study">
               <div class="project__image-wrap">
                 <div class="testhub-card-preview" aria-hidden="true">
                   <img src="images/TestHub2.png" alt="" class="testhub-img" />
@@ -127,8 +107,25 @@
                   <span class="tag">B2B</span>
                   <span class="tag">Healthcare</span>
                 </div>
-                <h3 class="project__title">Streamlining Purchases for Healthcare Providers</h3>
-                <p class="project__desc">Improved the purchase flow with multi-item selection, reducing friction for healthcare providers ordering at scale.</p>
+                <h3 class="project__title">Streamlining the Purchasing Flow</h3>
+                <p class="project__desc">Redesigned the purchase flow to support bulk ordering, reducing friction for healthcare providers.</p>
+              </div>
+            </a>
+          </article>
+
+          <article class="project">
+            <a href="case-study-4.html?v=project-order-2" class="project__link" aria-label="View Interactive Wildlife Spotting App case study">
+              <div class="project__image-wrap wilds-image-wrap">
+                <video class="project__tile-video wilds-tile-video" src="images/wilds prototype short.mov" autoplay loop muted playsinline aria-hidden="true"></video>
+              </div>
+              <div class="project__meta">
+                <div class="project__tags">
+                  <span class="tag">Mobile</span>
+                  <span class="tag">Concept</span>
+                  <span class="tag">Vibe Coded</span>
+                </div>
+                <h3 class="project__title">Interactive Wildlife Spotting App</h3>
+                <p class="project__desc">Helping Stanley Park visitors discover nearby wildlife through real-time sightings and location-based notifications in this app concept.</p>
               </div>
             </a>
           </article>
@@ -147,20 +144,6 @@
 
           <blockquote class="testimonial">
             <p class="testimonial__quote">
-              <span class="testimonial__callout"><span class="callout-star">✦</span> "Funny, smart, collaborative, and highly intuitive."</span>
-              Catherine is an incredibly talented product designer. She's hard working, a total professional, and such a pleasure to work with. We're really lucky to have her talents.
-            </p>
-            <footer class="testimonial__author">
-              <div class="testimonial__avatar" style="width:36px;height:36px;border-radius:8px;background:var(--clr-border);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">👩🏻‍💻</div>
-              <div>
-                <strong>Kitty K.</strong>
-                <span>CEO, Raisonance</span>
-              </div>
-            </footer>
-          </blockquote>
-
-          <blockquote class="testimonial">
-            <p class="testimonial__quote">
               <span class="testimonial__callout"><span class="callout-star">✦</span> "Catherine approaches each project with empathy and curiosity."</span>
               Building deep expertise through thoughtful research and collaboration. She consistently shows up with care and professionalism — her attention to detail shines through in every aspect of her work.
             </p>
@@ -169,6 +152,20 @@
               <div>
                 <strong>Victoria M.</strong>
                 <span>UX Design Specialist, SAP</span>
+              </div>
+            </footer>
+          </blockquote>
+
+          <blockquote class="testimonial">
+            <p class="testimonial__quote">
+              <span class="testimonial__callout"><span class="callout-star">✦</span> "Funny, smart, collaborative, and highly intuitive."</span>
+              Catherine is an incredibly talented product designer. She's hard working, a total professional, and such a pleasure to work with. We're really lucky to have her talents.
+            </p>
+            <footer class="testimonial__author">
+              <div class="testimonial__avatar" style="width:36px;height:36px;border-radius:8px;background:var(--clr-border);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">👩🏻‍💻</div>
+              <div>
+                <strong>Kitty K.</strong>
+                <span>CEO, Raisonance</span>
               </div>
             </footer>
           </blockquote>
@@ -195,18 +192,8 @@
 
   <footer class="footer">
     <div class="container footer__inner" style="position: relative;">
-      <p style="font-size: var(--text-sm); font-weight: 300; color: var(--clr-text-muted);">Take a breath. Stay a while.</p>
-      <p style="position: absolute; left: 50%; transform: translateX(-50%); font-size: var(--text-sm); font-weight: 300; color: var(--clr-text-muted);">&copy; 2026 Catherine Lin</p>
-      <div class="footer__links">
-        <button class="footer__link footer__copy" data-email="catherinelinuxd@gmail.com" aria-label="Copy email address">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          <span>catherinelinuxd@gmail.com</span>
-        </button>
-        <a href="https://www.linkedin.com/in/catherine-lin12/" target="_blank" rel="noopener" class="footer__link">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 0 0-4 0"/></svg>
-          LinkedIn
-        </a>
-      </div>
+
+      <p class="footer__copyright">&copy; 2026 Catherine Lin</p>
     </div>
   </footer>
 

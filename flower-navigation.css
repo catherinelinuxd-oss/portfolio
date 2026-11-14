@@ -1,0 +1,99 @@
+/* Shared rolling flower navigation for About and case-study pages. */
+:is(.about-page, .case-study-page) .about-header {
+  display: flex;
+  justify-content: space-between;
+}
+:is(.about-page, .case-study-page) .about-header .flower-nav {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  max-width: 100%;
+  border: 1px solid #dcdde5;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .85);
+  box-shadow: 0 4px 18px rgba(36, 38, 50, .05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.flower-nav__button {
+  position: relative;
+  display: block;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.flower-nav__button img {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  transition: transform 450ms cubic-bezier(.2,.8,.2,1);
+}
+.flower-nav[data-open="true"] .flower-nav__button img { transform: translate(-50%, -50%) rotate(90deg); }
+.flower-nav__reveal {
+  display: grid;
+  grid-template-columns: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition: grid-template-columns 450ms cubic-bezier(.2,.8,.2,1), opacity 200ms ease, visibility 450ms;
+}
+.flower-nav[data-open="true"] .flower-nav__reveal { grid-template-columns: 1fr; opacity: 1; visibility: visible; }
+:is(.about-page, .case-study-page) .about-header .flower-nav .nav {
+  display: block;
+  position: static;
+  min-width: 0;
+  width: auto;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+:is(.about-page, .case-study-page) .about-header .flower-nav .nav__links {
+  display: flex;
+  position: static;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: max-content;
+  gap: 24px;
+  height: 48px;
+  align-items: center;
+  padding: 0 24px 0 8px;
+  border: 0;
+  background: transparent;
+}
+:is(.about-page, .case-study-page) .about-header .flower-nav .nav__links a {
+  display: block;
+  padding: 6px 0;
+  border: 0;
+  white-space: nowrap;
+}
+:is(.about-page, .case-study-page) .about-header .home__contact { margin-left: auto; }
+@media (max-width: 640px) {
+  :is(.about-page, .case-study-page) .about-header .flower-nav .nav__links { height: 40px; gap: 12px; padding-right: 16px; }
+  .flower-nav__button { width: 40px; height: 40px; flex-basis: 40px; }
+  :is(.about-page, .case-study-page) .about-header .home__contact { gap: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flower-nav__button img, .flower-nav__reveal { transition: none; }
+}
+
+/* Explicit outer dimensions keep the collapsed flower perfectly round. */
+:is(.about-page, .case-study-page) .about-header .flower-nav {
+  box-sizing: border-box;
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+:is(.about-page, .case-study-page) .about-header .flower-nav[data-open="true"] { width: max-content; }
+@media (max-width: 640px) {
+  :is(.about-page, .case-study-page) .about-header .flower-nav { width: 42px; height: 42px; }
+  :is(.about-page, .case-study-page) .about-header .flower-nav[data-open="true"] { width: max-content; }
+}

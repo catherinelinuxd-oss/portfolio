@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Case Study SAC Mobile Experience Catherine Lin</title>
-  <link rel="icon" type="image/svg+xml" href="images/favicon-lin.svg" />
+  <title>Simplifying Data Visualizations at SAP — Catherine Lin</title>
+  <link rel="icon" type="image/png" href="images/flower-mark.png" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -417,20 +417,43 @@
       margin: 0;
     }
   </style>
+  <link rel="stylesheet" href="case-study-refresh.css" />
+  <link rel="stylesheet" href="flower-navigation.css" />
+  <script src="flower-navigation.js" defer></script>
 </head>
-<body>
+<body class="case-study-page sap-case">
 
-  <nav class="nav" aria-label="Primary">
-    <a href="index.html" class="nav__logo" aria-label="CL Home" style="font-family: 'Ma Shan Zheng', serif; font-size: 1.75rem; text-decoration: none; color: var(--clr-text);">林</a>
+  <header class="about-header">
+  <div class="flower-nav">
+    <button class="flower-nav__button" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="flower-navigation">
+      <img src="images/flower-mark.png" alt="" width="1080" height="1080" />
+    </button>
+    <div class="flower-nav__reveal">
+  <nav class="nav" id="flower-navigation" aria-label="Primary">
     <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span>
     </button>
     <ul class="nav__links" role="list">
-      <li><a href="index.html#work" aria-current="page">Work</a></li>
+      <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="https://drive.google.com/file/d/1N8Trjoo7WWR7c0rMHwUJrrGUKLO5-BjP/view?usp=sharing" target="_blank" rel="noopener">Resume</a></li>
+      <li><a href="https://drive.google.com/file/d/17YFvfkV_eQCQlajJmylnQy5ZY00-CSeu/view?usp=sharing" target="_blank" rel="noopener">Resume</a></li>
     </ul>
   </nav>
+    </div>
+  </div>
+
+      <div class="footer__links home__contact" role="navigation" aria-label="Contact">
+        <a class="footer__link" href="mailto:catherinelinuxd@gmail.com" aria-label="Email">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span>Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/catherine-lin12/" target="_blank" rel="noopener" class="footer__link" aria-label="LinkedIn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 0 0-4 0"/></svg>
+          LinkedIn
+        </a>
+      </div>
+
+  </header>
 
   <main>
 
@@ -439,13 +462,13 @@
       <div class="container">
         <a href="index.html#work" class="cs-back">← All work</a>
         <div class="project__tags" style="margin-bottom: var(--space-4);">
-          <span class="tag">Mobile</span>
-          <span class="tag">SaaS</span>
-          <span class="tag">Data Visualisation</span>
+          <span class="tag">B2B SaaS</span>
+          <span class="tag">Mobile + Web</span>
+          <span class="tag">Data Analytics</span>
         </div>
-        <h1>Designing Intuitive Chart Visualizations at SAP</h1>
+        <h1>Simplifying Data Visualizations at SAP</h1>
         <p class="lead">
-          Optimizing 10+ chart types for truly mobile-native interactions, helping SAP Analytics Cloud deliver a data experience built for the way business leaders actually work on the go.
+          Simplified complex analytics experiences across mobile and desktop, contributing to chart discovery, design system scalability, and core workflow improvements.
         </p>
         <div class="cs-meta">
           <div class="cs-meta__item">
@@ -454,11 +477,11 @@
           </div>
           <div class="cs-meta__item">
             <span class="cs-meta__label">Timeline</span>
-            <span class="cs-meta__value">4 months</span>
+            <span class="cs-meta__value">13 months</span>
           </div>
           <div class="cs-meta__item">
             <span class="cs-meta__label">Team</span>
-            <span class="cs-meta__value">4 designers, 10+ developers, PM</span>
+            <span class="cs-meta__value">Various global teams</span>
           </div>
           <div class="cs-meta__item">
             <span class="cs-meta__label">Tools</span>
@@ -471,7 +494,7 @@
     <!-- ── Hero image ───────────── -->
     <div class="container">
       <div style="overflow: hidden; border-radius: 20px; margin-block: var(--space-20);">
-        <video src="images/SAC Mobile App Lo-fi Video.mov" autoplay loop muted playsinline style="width: 100%; display: block; margin-top: -10px; margin-bottom: -10px;"></video>
+        <img src="images/sap-hero-updated.png" alt="SAP analytics interface illustration" style="width: 100%; height: auto; display: block;" />
       </div>
     </div>
 
@@ -481,64 +504,60 @@
 
         <!-- NDA notice -->
         <div class="callout" style="background: #fef3e2; border-left-color: #e8923a; margin-top: var(--space-8);">
-          <p style="color: #9a5a1a; font-style: normal; font-size: var(--text-sm);">🔒 This project is under NDA. The work shown here is intentionally limited I'm happy to walk through more detail in a conversation.</p>
+          <p style="color: #9a5a1a; font-style: normal; font-size: var(--text-sm);">🔒 Most of my work is under NDA. The work shown here is intentionally limited, please feel free to reach out to discuss in more detail</p>
         </div>
 
         <!-- Context -->
         <span class="cs-eyebrow">Context</span>
-        <h2>SAP Analytics Cloud: Leader in Data Visualization</h2>
-        <p>SAP Analytics Cloud (SAC) is a leader in Business Intelligence, renowned for its powerful web experience that helps enterprises plan, analyze, and act on data at scale. SAC continuously stays ahead of the curve introducing new AI-powered features, expanding enterprise planning capabilities, and helping businesses make smarter decisions faster. It is a platform that sets the standard in the industry and keeps pushing boundaries.</p>
+        <h2>What is SAP Analytics Cloud</h2>
+        <p>SAP Analytics Cloud (SAC) is an enterprise platform combining business intelligence, data visualization, and planning to help organizations make data-driven decisions. With over 100,000 daily business users, SAC delivers complex analytics experiences at scale, with expanding AI-powered capabilities.</p>
 
-        <!-- Problem -->
-        <span class="cs-eyebrow">Problem</span>
-        <h2>Mobile Experience Falling Short of User Expectations</h2>
-        <p>Unlike the web experience, the mobile team had noticed significantly falling user adoption rates. The app's UI was visually outdated, functionality hadn't kept pace with the desktop version, and it wasn't truly mobile-native it was simply a shrunken version of the web app, with no consideration for touch interactions or on-the-go usage patterns.</p>
-
-        <div class="callout" style="background: #e8f3fb; border-left-color: #5b9ec9;">
-          <p style="color: #2d6a8f;">"I just need to check my numbers on the go, but the mobile app is so difficult to use that it's easier to wait until I'm back at my desk."</p>
-        </div>
-
-        <!-- Solution -->
-        <span class="cs-eyebrow">Solution</span>
-        <h2>Shifting to a Mobile-First Strategy with a Brand New App</h2>
-        <p>The team decided to build a brand new app from the ground up. Designed to embrace Apple's latest Liquid Glass iOS design language and packed with all the latest functionality, the new app would be truly optimized for mobile making it effortless for business leaders to view and interact with their data on the go.</p>
-
-        <!-- Key Decisions -->
-        <span class="cs-eyebrow">My Contributions</span>
-        <h2>Optimizing 10+ Charts to be Mobile-Native</h2>
-
-        <div class="contributions-grid">
-          <div class="contribution-card">
-            <div class="contribution-card__icon">📱</div>
-            <h3 class="contribution-card__title">Mobile-first chart interactions</h3>
-            <p class="contribution-card__desc">I helped define many core chart interactions from the ground up not adapted from the web, but truly mobile-first. This included interactions like scrubbing, swiping, and tap behaviors, as well as tooltip sizing and content, how to surface complex multi-element data on a small screen, data variance display, and the end-to-end filtering flow.</p>
+        <section aria-labelledby="key-contributions-title">
+          <span class="cs-eyebrow">My Work</span>
+          <h2 id="key-contributions-title">Key Contributions</h2>
+          <div class="key-contributions-grid">
+          <section class="key-contribution" aria-labelledby="contribution-1-title">
+            <header class="key-contribution__heading">
+              <span class="key-contribution__number">01</span>
+              <h3 id="contribution-1-title">Mobile-Native Data Visualization</h3>
+            </header>
+            <dl class="key-contribution__details">
+              <div><dt>Challenge</dt><dd>Translate complex desktop charts into intuitive mobile native experiences, balancing data density with usability on smaller screens.</dd></div>
+              <div><dt>Impact</dt><dd>Designed mobile-native chart cards and interactions for 10+ chart types, establishing reusable patterns and interaction guidelines for consistent mobile experiences.</dd></div>
+            </dl>
+          </section>
+          <section class="key-contribution" aria-labelledby="contribution-2-title">
+            <header class="key-contribution__heading">
+              <span class="key-contribution__number">02</span>
+              <h3 id="contribution-2-title">Scalable Chart Discovery</h3>
+            </header>
+            <dl class="key-contribution__details">
+              <div><dt>Challenge</dt><dd>As the chart library expanded, users needed a faster, more intuitive way to discover and select the right visualization for their data.</dd></div>
+              <div><dt>Impact</dt><dd>Redesigned the chart selection experience with improved discoverability to support a growing library of visualizations.</dd></div>
+            </dl>
+          </section>
+          <section class="key-contribution" aria-labelledby="contribution-3-title">
+            <header class="key-contribution__heading">
+              <span class="key-contribution__number">03</span>
+              <h3 id="contribution-3-title">Design System Contribution</h3>
+            </header>
+            <dl class="key-contribution__details">
+              <div><dt>Challenge</dt><dd>Unify inconsistent components across 9+ data diagrams to create a cohesive, scalable experience.</dd></div>
+              <div><dt>Impact</dt><dd>Designed and shipped three reusable, cross-product design system components, improving consistency and reducing the need for one-off design solutions.</dd></div>
+            </dl>
+          </section>
+          <section class="key-contribution" aria-labelledby="contribution-4-title">
+            <header class="key-contribution__heading">
+              <span class="key-contribution__number">04</span>
+              <h3 id="contribution-4-title">UI Theming</h3>
+            </header>
+            <dl class="key-contribution__details">
+              <div><dt>Challenge</dt><dd>Migrate core analytics workflows to SAP's updated design system while identifying opportunities to improve usability and interaction consistency.</dd></div>
+              <div><dt>Impact</dt><dd>Led the redesign of three core workflows, collaborating closely with developers on implementation, design specifications, and QA to ensure a consistent experience.</dd></div>
+            </dl>
+          </section>
           </div>
-          <div class="contribution-card">
-            <div class="contribution-card__icon">📐</div>
-            <h3 class="contribution-card__title">Chart Sizing Guidelines</h3>
-            <p class="contribution-card__desc">I defined comprehensive sizing guidelines for charts on mobile covering minimum and maximum dimensions, how charts scale across device sizes, and how they behave in different layout contexts. This gave the engineering team a clear, consistent reference for implementing charts that feel intentional and readable on any screen.</p>
-          </div>
-          <div class="contribution-card">
-            <div class="contribution-card__icon">⚠️</div>
-            <h3 class="contribution-card__title">Error and empty states</h3>
-            <p class="contribution-card__desc">Designed a comprehensive set of error and empty state patterns for the mobile experience covering data loading failures, no-results views, and connectivity issues. These states had previously been inconsistent across chart types, leaving users with no guidance when something went wrong. The new patterns gave engineers a clear, reusable system to build against.</p>
-          </div>
-        </div>
-
-        <!-- Design Decisions -->
-        <span class="cs-eyebrow">Design Decisions</span>
-        <h2>Prioritization: What Matters on a Small Screen</h2>
-        <p>One of the core challenges across all chart types was deciding how much data to surface at once. On mobile, screen real estate is limited and cognitive load is high - showing everything is not the same as showing what matters.</p>
-
-        <h3>Tooltips: a case study in prioritization</h3>
-        <p>Tooltips were one of the most complex areas to get right. On certain chart types like the Box Plot, a tooltip can contain up to 9 lines of data - minimum, maximum, median, quartiles, and outliers. Displaying all of that in a single floating tooltip on a small screen is overwhelming and often illegible.</p>
-        <p>We decided on a two-tier approach. A compact preview tooltip surfaces only the top 3 most relevant data points inline, giving users just enough context without cluttering the chart. If users want the full picture, they can tap to expand into a full-screen tooltip, where the complete dataset is presented across swipeable pages. This keeps the initial experience clean while still making the full data accessible to those who need it.</p>
-        <p>The tradeoff was discoverability - not all users would know to tap for more. We addressed this with a clear visual affordance on the preview tooltip indicating more data was available, and validated the pattern through usability testing.</p>
-
-        <!-- Outcome -->
-        <span class="cs-eyebrow">Outcome</span>
-        <h2>Successful Beta Version Launched</h2>
-        <p>The initial beta version of the redesigned SAC mobile experience has been successfully launched. I participated in QA testing alongside the development team, working through edge cases and validating design behavior in the live build. Once the results of additional user testing are incorporated, the app is expected to launch publicly on the App Store in late 2026.</p>
+        </section>
 
         <!-- Feedback From Collaborators -->
         <span class="cs-eyebrow">Feedback</span>
@@ -551,7 +570,10 @@
               <div class="feedback-card__avatar">👩🏻‍💼</div>
               <span class="feedback-card__role">Senior UX Designer, SAP</span>
             </div>
-            <p class="feedback-card__quote">Working with Catherine on the mobile team was a great experience. Catherine was able to balance design ideas while focusing on user and business needs. <strong>She was able to communicate her ideas clearly, welcomed feedback to improve her designs</strong> and was able to take responsibility and initiative during the development process.</p>
+            <blockquote class="feedback-card__quote">
+              <p class="feedback-card__highlight">“Communicated her ideas clearly, welcomed feedback to improve her designs”</p>
+              <p>Working with Catherine on the mobile team was a great experience. Catherine was able to balance design ideas while focusing on user and business needs. She was able to communicate her ideas clearly, welcomed feedback to improve her designs and was able to take responsibility and initiative during the development process.</p>
+            </blockquote>
           </div>
 
           <div class="feedback-card">
@@ -559,34 +581,30 @@
               <div class="feedback-card__avatar">👩🏻‍💼</div>
               <span class="feedback-card__role">UX Design Specialist, SAP</span>
             </div>
-            <p class="feedback-card__quote">Catherine approaches each project with empathy and curiosity, building deep expertise through thoughtful research and collaboration. <strong>She consistently shows up with care and professionalism — her attention to detail shines through in every aspect of her work.</strong></p>
+            <blockquote class="feedback-card__quote">
+              <p class="feedback-card__highlight">“Her attention to detail shines through in every aspect of her work.”</p>
+              <p>Catherine approaches each project with empathy and curiosity, building deep expertise through thoughtful research and collaboration. She consistently shows up with care and professionalism — her attention to detail shines through in every aspect of her work.</p>
+            </blockquote>
           </div>
 
         </div>
 
         <!-- Reflections -->
-        <span class="cs-eyebrow">Reflections</span>
-
-        <div class="role-grid" style="margin-top: 0;">
-          <div class="role-grid__left">
-            <h2 style="margin-top: var(--space-3);">Thinking Mobile-First, Not Mobile-Adapted</h2>
-            <h3>Mobile is not just a smaller web</h3>
-            <p>This project deepened my understanding of what it really means to design for mobile. Translating data-heavy chart interactions from web to mobile isn't a 1:1 process - touch targets, thumb zones, screen real estate, and legibility at small sizes all require fundamentally different thinking. I learned to question assumptions that worked on desktop and design specifically for the constraints and behaviors of a mobile context.</p>
-            <h3>Working within technical constraints</h3>
-            <p>This project taught me how to work closely with developers to fine-tune interactions at a detailed level - every gesture and edge case required careful back-and-forth to get right. I also learned how to design within the real constraints of iOS theming, where the system has strong built-in opinions that shape what's possible.</p>
+        <section aria-labelledby="sap-reflections-title">
+          <span class="cs-eyebrow">Learnings</span>
+          <h2 id="sap-reflections-title">Reflections</h2>
+          <p class="sap-reflections-description">I'm so grateful for my time at SAP, it taught me how to simplify complex experiences at scale, collaborate with diverse global teams, and embrace new challenges that pushed me to grow as a designer.</p>
+          <div class="sap-reflection-photos">
+            <img src="images/sap-workshop-group.jpeg" alt="SAP colleagues at an Auto Layout workshop" width="1536" height="2048" loading="lazy" />
+            <img src="images/sap-impulse-memories.jpg" alt="Photo booth memories from an SAP event" loading="lazy" />
+            <img src="images/sap-colleagues.jpg" alt="Colleagues standing together beneath the SAP logo" loading="lazy" />
           </div>
-          <div class="role-grid__right">
-            <div class="role-grid__photo-wrap" style="height: 100%;">
-              <img src="images/Polariod Pics/Polariod 3.png" alt="Working at SAP, Vancouver" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px; display: block;">
-              <p class="role-grid__caption">Working at SAP, Vancouver</p>
-            </div>
-          </div>
-        </div>
+        </section>
 
         <!-- Next / prev project navigation -->
         <nav class="cs-nav" aria-label="Project navigation">
-          <a href="case-study-1.html">← Previous project</a>
-          <a href="case-study-4.html">Next project →</a>
+          <a href="case-study-4.html?v=project-order-2">← Previous: Wildlife Spotting</a>
+          <a href="case-study-1.html?v=project-order-2">Next: AI Cough Analysis →</a>
         </nav>
 
       </div>
@@ -596,7 +614,6 @@
 
   <footer class="footer">
     <div class="container footer__inner">
-      <p style="font-size: var(--text-sm); font-weight: 300; color: var(--clr-text-muted);">Take a breath. Stay a while.</p>
       <p>&copy; 2026 Catherine Lin</p>
     </div>
   </footer>
