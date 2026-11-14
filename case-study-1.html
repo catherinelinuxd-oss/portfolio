@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Case Study — Jane Doe</title>
-  <link rel="icon" type="image/svg+xml" href="images/favicon-lin.svg" />
+  <title>AI Cough Analysis App Redesign — Catherine Lin</title>
+  <link rel="icon" type="image/png" href="images/flower-mark.png" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -695,20 +695,43 @@
       .cs-feature__columns { grid-template-columns: 1fr; }
     }
   </style>
+  <link rel="stylesheet" href="case-study-refresh.css" />
+  <link rel="stylesheet" href="flower-navigation.css" />
+  <script src="flower-navigation.js" defer></script>
 </head>
-<body>
+<body class="case-study-page">
 
-  <nav class="nav" aria-label="Primary">
-    <a href="index.html" class="nav__logo" aria-label="CL — Home" style="font-family: 'Ma Shan Zheng', serif; font-size: 1.75rem; text-decoration: none; color: var(--clr-text);">林</a>
+  <header class="about-header">
+  <div class="flower-nav">
+    <button class="flower-nav__button" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="flower-navigation">
+      <img src="images/flower-mark.png" alt="" width="1080" height="1080" />
+    </button>
+    <div class="flower-nav__reveal">
+  <nav class="nav" id="flower-navigation" aria-label="Primary">
     <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span>
     </button>
     <ul class="nav__links" role="list">
-      <li><a href="index.html#work" aria-current="page">Work</a></li>
+      <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="https://drive.google.com/file/d/1N8Trjoo7WWR7c0rMHwUJrrGUKLO5-BjP/view?usp=sharing" target="_blank" rel="noopener">Resume</a></li>
+      <li><a href="https://drive.google.com/file/d/17YFvfkV_eQCQlajJmylnQy5ZY00-CSeu/view?usp=sharing" target="_blank" rel="noopener">Resume</a></li>
     </ul>
   </nav>
+    </div>
+  </div>
+
+      <div class="footer__links home__contact" role="navigation" aria-label="Contact">
+        <a class="footer__link" href="mailto:catherinelinuxd@gmail.com" aria-label="Email">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span>Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/catherine-lin12/" target="_blank" rel="noopener" class="footer__link" aria-label="LinkedIn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 0 0-4 0"/></svg>
+          LinkedIn
+        </a>
+      </div>
+
+  </header>
 
   <main>
 
@@ -721,7 +744,7 @@
           <span class="tag">Healthcare</span>
           <span class="tag">Startup</span>
         </div>
-        <h1>Making AI cough analysis human-centred</h1>
+        <h1>AI Cough Analysis App Redesign</h1>
         <p class="lead">
           An app-wide redesign that improved usability by 40%, giving users the clarity and confidence to monitor their respiratory health on their own terms.
         </p>
@@ -755,6 +778,24 @@
     <article class="cs-body">
       <div class="container">
 
+        <span class="cs-eyebrow">Results</span>
+        <h2>Key Outcomes</h2>
+
+        <div class="outcome-grid">
+          <div class="outcome">
+            <p class="outcome__stat">↑ 40%</p>
+            <p class="outcome__label">Improvement in usability scores based on the task success rate of recording a cough, after redesigning onboarding, recording, and results screens.</p>
+          </div>
+          <div class="outcome">
+            <p class="outcome__stat">15+</p>
+            <p class="outcome__label">New reusable components that increase the speed of future implementation.</p>
+          </div>
+          <div class="outcome">
+            <p class="outcome__stat">WCAG AAA</p>
+            <p class="outcome__label">Redesigned colour palette meets AAA accessibility standards, ensuring the app is readable for users across all visual abilities.</p>
+          </div>
+        </div>
+
         <div class="cs-context-grid">
           <div class="cs-context-block">
         <span class="cs-eyebrow">Context</span>
@@ -768,7 +809,7 @@
           </div>
         </div>
 
-        <hr style="border: none; border-top: 1px solid var(--clr-border); margin: var(--space-20) 0 0;" />
+
 
         <span class="cs-eyebrow">Problem</span>
         <h2>Healthcare AI is booming, yet MyAdvocate's user adoption is low</h2>
@@ -1072,40 +1113,27 @@
           </div>
         </div>
 
-        <span class="cs-eyebrow">Results</span>
-        <h2>Outcomes</h2>
-
-        <div class="outcome-grid">
-          <div class="outcome">
-            <p class="outcome__stat">↑ 40%</p>
-            <p class="outcome__label">Improvement in usability scores based on the task success rate of recording a cough, after redesigning onboarding, recording, and results screens.</p>
-          </div>
-          <div class="outcome">
-            <p class="outcome__stat">15+</p>
-            <p class="outcome__label">New reusable components that increase the speed of future implementation.</p>
-          </div>
-          <div class="outcome">
-            <p class="outcome__stat">AAA</p>
-            <p class="outcome__label">Redesigned colour palette meets AAA accessibility standards, ensuring the app is readable for users across all visual abilities.</p>
-          </div>
-        </div>
-
         <span class="cs-eyebrow">Learnings</span>
         <h2>Reflections</h2>
-        <p>
-          Working at MyAdvocate taught me what it really means to design in an <mark class="highlight">agile startup environment</mark>. With a small, fast-moving team of developers and data scientists, I learned to communicate design decisions quickly, advocate for the user in technical conversations, and adapt when priorities shifted overnight.
-        </p>
-        <p>
-          One of the most valuable experiences was <mark class="highlight">designing features from 0 to 1</mark>, starting from ambiguity and shaping ideas into fully realised flows. I worked across the full spectrum of design, from <mark class="highlight">big picture user flows</mark> that mapped the entire app experience, to the smallest <mark class="highlight">micro-interactions</mark> that made individual moments feel polished and intentional.
-        </p>
-        <p>
-          Collaborating closely with engineers and data scientists also deepened my understanding of technical constraints and how to design confidently within them. I left with a much stronger instinct for what to prioritize, when to push back, and how to move fast without compromising quality.
-        </p>
+        <ul class="reflection-list">
+          <li>
+            <h3>Stay adaptable in a fast-moving startup</h3>
+            <p>I learned to communicate design decisions clearly, advocate for users in technical discussions, and adapt quickly when priorities changed.</p>
+          </li>
+          <li>
+            <h3>Bring clarity to ideas from 0 to 1</h3>
+            <p>Turning ambiguous ideas into complete experiences taught me to connect big-picture user flows with the micro-interactions that make each step feel intuitive.</p>
+          </li>
+          <li>
+            <h3>Balance user needs with technical constraints</h3>
+            <p>Working closely with engineers and data scientists sharpened my judgment about what to prioritize, when to push back, and how to move quickly without compromising quality.</p>
+          </li>
+        </ul>
 
         <!-- Next / prev project navigation -->
         <nav class="cs-nav" aria-label="Project navigation">
-          <a href="case-study-2.html">← Previous project</a>
-          <a href="case-study-2.html">Next project →</a>
+          <a href="case-study-2.html?v=project-order-2">← Previous: SAP</a>
+          <a href="case-study-3.html?v=project-order-2">Next: Healthcare Purchasing →</a>
         </nav>
 
       </div>
@@ -1115,7 +1143,6 @@
 
   <footer class="footer">
     <div class="container footer__inner">
-      <p style="font-size: var(--text-sm); font-weight: 300; color: var(--clr-text-muted);">Take a breath. Stay a while.</p>
       <p>&copy; 2026 Catherine Lin</p>
     </div>
   </footer>

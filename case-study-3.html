@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Case Study - TestHub - Catherine Lin</title>
-  <link rel="icon" type="image/svg+xml" href="images/favicon-lin.svg" />
+  <title>Streamlining the Purchasing Flow | Catherine Lin</title>
+  <link rel="icon" type="image/png" href="images/flower-mark.png" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -326,20 +326,43 @@
 
     .cs-nav a:hover { color: var(--clr-accent); }
   </style>
+  <link rel="stylesheet" href="case-study-refresh.css?v=connected-process-1" />
+  <link rel="stylesheet" href="flower-navigation.css" />
+  <script src="flower-navigation.js" defer></script>
 </head>
-<body>
+<body class="case-study-page testhub-case">
 
-  <nav class="nav" aria-label="Primary">
-    <a href="index.html" class="nav__logo" aria-label="CL - Home" style="font-family: 'Ma Shan Zheng', serif; font-size: 1.75rem; text-decoration: none; color: var(--clr-text);">林</a>
+  <header class="about-header">
+  <div class="flower-nav">
+    <button class="flower-nav__button" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="flower-navigation">
+      <img src="images/flower-mark.png" alt="" width="1080" height="1080" />
+    </button>
+    <div class="flower-nav__reveal">
+  <nav class="nav" id="flower-navigation" aria-label="Primary">
     <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span>
     </button>
     <ul class="nav__links" role="list">
-      <li><a href="index.html#work" aria-current="page">Work</a></li>
+      <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="https://drive.google.com/file/d/1N8Trjoo7WWR7c0rMHwUJrrGUKLO5-BjP/view?usp=sharing" target="_blank" rel="noopener">Resume</a></li>
+      <li><a href="https://drive.google.com/file/d/17YFvfkV_eQCQlajJmylnQy5ZY00-CSeu/view?usp=sharing" target="_blank" rel="noopener">Resume</a></li>
     </ul>
   </nav>
+    </div>
+  </div>
+
+      <div class="footer__links home__contact" role="navigation" aria-label="Contact">
+        <a class="footer__link" href="mailto:catherinelinuxd@gmail.com" aria-label="Email">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span>Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/catherine-lin12/" target="_blank" rel="noopener" class="footer__link" aria-label="LinkedIn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 0 0-4 0"/></svg>
+          LinkedIn
+        </a>
+      </div>
+
+  </header>
 
   <main>
 
@@ -351,7 +374,7 @@
           <span class="tag">B2B</span>
           <span class="tag">Healthcare</span>
         </div>
-        <h1>Streamlining Purchases for Healthcare Providers</h1>
+        <h1>Streamlining the Purchasing Flow</h1>
         <p class="lead">By introducing an intuitive multi-item cart system and real-time subtotals, healthcare providers can make purchases quicker and more efficiently.</p>
         <div class="cs-meta">
           <div class="cs-meta__item">
@@ -381,8 +404,28 @@
     <article class="cs-body">
       <div class="container">
 
+        <!-- Outcomes -->
+        <span class="cs-eyebrow">Outcomes</span>
+        <h2>Key Outcomes</h2>
+        <p>Follow-up usability testing and order data confirmed the redesign delivered measurable improvements across every key metric.</p>
+
+        <div class="outcome-grid">
+          <div class="outcome">
+            <p class="outcome__stat">↓ 60%</p>
+            <p class="outcome__label">Reduction in purchasing time</p>
+          </div>
+          <div class="outcome">
+            <p class="outcome__stat">80%</p>
+            <p class="outcome__label">Average user satisfaction</p>
+          </div>
+          <div class="outcome">
+            <p class="outcome__stat">2×</p>
+            <p class="outcome__label">Increase in average cart volume</p>
+          </div>
+        </div>
+
         <!-- Background -->
-        <span class="cs-eyebrow">Background</span>
+        <span class="cs-eyebrow">Context</span>
         <h2>A B2B platform for respiratory healthcare, held back by its own purchase flow</h2>
         <p>TestHub is a B2B platform that enables healthcare providers to send patients digital respiratory tests and view their results. While the core product was strong, the purchasing flow was creating friction that was directly impacting order volume. The redesign focused on streamlining that experience, ultimately reducing purchase time by 60%.</p>
 
@@ -431,7 +474,7 @@
         <!-- Problem -->
         <span class="cs-eyebrow">Problem</span>
         <h2>Purchasing tests on TestHub is difficult, resulting in fewer and lower volume orders</h2>
-        <p>Primary users are small to medium healthcare providers specialising in respiratory care. They need simplicity and efficient bulk purchasing capabilities — but the existing flow made both difficult.</p>
+        <p>Primary users are small to medium healthcare providers specialising in respiratory care. They need simplicity and efficient bulk purchasing capabilities, but the existing flow made both difficult.</p>
 
         <div class="pain-grid">
           <div class="pain-card">
@@ -451,13 +494,16 @@
           </div>
         </div>
 
-        <img src="images/TestHub_ExistingFlow.webp" alt="Problem — existing purchase flow" style="width:100%; border-radius:20px; margin-block: var(--space-8); display:block;">
+        <figure class="testhub-audit">
+          <img src="images/TestHub_ExistingFlow.webp" alt="Problem: existing purchase flow" style="width:100%; border-radius:20px; display:block;">
+          <figcaption>Audit of Current Experience</figcaption>
+        </figure>
 
         <!-- User Flow -->
         <span class="cs-eyebrow">User Flow</span>
         <h2>Mapping the end-to-end purchase experience</h2>
         <p>Users must go through separate flows for each test type being added to the cart, as there is no existing infrastructure to allow multiple test types to be added in the same instance. This results in a long and frustrating experience.</p>
-        <p>If users want to see their order subtotal, they must manually select "Calculate" — a step that is often missed or misunderstood. This leaves users unsure about the cost and more likely to abandon their cart.</p>
+        <p>If users want to see their order subtotal, they must manually select "Calculate", a step that is often missed or misunderstood. This leaves users unsure about the cost and more likely to abandon their cart.</p>
         <img src="images/TestHub_UserFlow_Before.webp" alt="Existing user flow" style="width:100%; border-radius:20px; margin-block: var(--space-8); display:block;">
         <div class="callout">
           <p style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--clr-accent); font-style: normal; margin-bottom: var(--space-2);">Proposed Streamlined Flow</p>
@@ -479,11 +525,11 @@
           <div style="display: grid; grid-template-columns: 1fr 1.25fr; gap: var(--space-8); background: var(--clr-surface); border-radius: 20px; padding: var(--space-8);">
             <div>
               <p style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--clr-text-muted); margin-bottom: var(--space-3);">Before</p>
-              <img src="images/Multi-Select_Before.avif" alt="Multi-select test card — before" style="width:100%; border-radius:20px; display:block;">
+              <img src="images/Multi-Select_Before.avif" alt="Multi-select test card (before)" style="width:100%; border-radius:20px; display:block;">
             </div>
             <div>
               <p style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--clr-accent); margin-bottom: var(--space-3);">After</p>
-              <img src="images/Multi-Select_After.webp" alt="Multi-select test card — after" style="width:100%; border-radius:20px; display:block;">
+              <img src="images/Multi-Select_After.webp" alt="Multi-select test card (after)" style="width:100%; border-radius:20px; display:block;">
             </div>
           </div>
         </div>
@@ -494,11 +540,11 @@
             <span class="cs-feature__number">02</span>
             <h3 class="cs-feature__title">Dynamic bulk pricing table</h3>
           </div>
-          <p style="color: var(--clr-text-muted); margin-bottom: var(--space-8);">Added a bulk pricing table that shows discount tiers clearly, giving providers the information they need to confidently order at volume. Pricing visibility directly encourages larger orders.</p>
+          <p style="color: var(--clr-text-muted); margin-bottom: var(--space-8);">Expanded the existing bulk pricing table to cover all test types and clarify discount tiers, helping providers compare pricing and make informed decisions about larger orders.</p>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8); background: var(--clr-surface); border-radius: 20px; padding: var(--space-8);">
             <div>
               <p style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--clr-text-muted); margin-bottom: var(--space-3);">Before</p>
-              <img src="images/BulkTable_Before.avif" alt="Bulk pricing table — before" style="width:100%; border-radius:20px; display:block;">
+              <img src="images/BulkTable_Before.avif" alt="Bulk pricing table (before)" style="width:100%; border-radius:20px; display:block;">
             </div>
             <div>
               <p style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--clr-accent); margin-bottom: var(--space-3);">After</p>
@@ -517,32 +563,12 @@
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8); background: var(--clr-surface); border-radius: 20px; padding: var(--space-8);">
             <div>
               <p style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--clr-text-muted); margin-bottom: var(--space-3);">Before</p>
-              <img src="images/Subtotal_Before.avif" alt="Real-time subtotal — before" style="width:100%; border-radius:20px; display:block;">
+              <img src="images/Subtotal_Before.avif" alt="Real-time subtotal (before)" style="width:100%; border-radius:20px; display:block;">
             </div>
             <div>
               <p style="font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--clr-accent); margin-bottom: var(--space-3);">After</p>
-              <img src="images/Subtotal_After.avif" alt="Real-time subtotal — after" style="width:100%; border-radius:20px; display:block;">
+              <img src="images/Subtotal_After.avif" alt="Real-time subtotal (after)" style="width:100%; border-radius:20px; display:block;">
             </div>
-          </div>
-        </div>
-
-        <!-- Outcomes -->
-        <span class="cs-eyebrow">Outcomes</span>
-        <h2>Faster purchases, higher satisfaction, bigger orders</h2>
-        <p>Follow-up usability testing and order data confirmed the redesign delivered measurable improvements across every key metric.</p>
-
-        <div class="outcome-grid">
-          <div class="outcome">
-            <p class="outcome__stat">↓ 60%</p>
-            <p class="outcome__label">Faster purchase completion</p>
-          </div>
-          <div class="outcome">
-            <p class="outcome__stat">80%</p>
-            <p class="outcome__label">Average user satisfaction</p>
-          </div>
-          <div class="outcome">
-            <p class="outcome__stat">2×</p>
-            <p class="outcome__label">Increase in average order volume</p>
           </div>
         </div>
 
@@ -551,15 +577,15 @@
         <h2>What I learned</h2>
 
         <h3>Managing scope creep in enterprise products</h3>
-        <p>This project reinforced how much scope creep can quietly derail a focused redesign in complex enterprise products. Staying anchored to the specific user pain points — rather than trying to fix everything at once — was what allowed us to ship meaningful improvements within the timeline.</p>
+        <p>This project reinforced how much scope creep can quietly derail a focused redesign in complex enterprise products. Staying anchored to the specific user pain points, rather than trying to fix everything at once, was what allowed us to ship meaningful improvements within the timeline.</p>
 
         <h3>Applying e-commerce UI patterns in B2B</h3>
-        <p>I also learned a lot about applying e-commerce psychology in a B2B context. Building trust through consistent design patterns, transparent pricing, and reducing cognitive load at the point of purchase are principles that translate directly from consumer products — and they worked here too.</p>
+        <p>I also learned a lot about applying e-commerce psychology in a B2B context. Building trust through consistent design patterns, transparent pricing, and reducing cognitive load at the point of purchase are principles that translate directly from consumer products, and they worked here too.</p>
 
         <!-- Prev / next nav -->
         <nav class="cs-nav" aria-label="Project navigation">
-          <a href="case-study-4.html">← Previous project</a>
-          <a href="case-study-1.html">Next project →</a>
+          <a href="case-study-1.html?v=project-order-2">← Previous: AI Cough Analysis</a>
+          <a href="case-study-4.html?v=project-order-2">Next: Wildlife Spotting →</a>
         </nav>
 
       </div>
@@ -569,7 +595,6 @@
 
   <footer class="footer">
     <div class="container footer__inner">
-      <p style="font-size: var(--text-sm); font-weight: 300; color: var(--clr-text-muted);">Take a breath. Stay a while.</p>
       <p>&copy; 2026 Catherine Lin</p>
     </div>
   </footer>
